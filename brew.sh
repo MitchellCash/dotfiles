@@ -31,10 +31,7 @@ brew install homebrew/dupes/screen
 # Install other useful binaries.
 brew install git
 
-# Install Homebrew Cask to extend Homebrew to macOS GUI applications.
-brew install caskroom/cask/brew-cask
-
-# Install useful macOS GUI applications.
+# Install useful macOS GUI applications via Homebrew Cask.
 brew cask install 1password
 brew cask install atom
 brew cask install backblaze
