@@ -32,7 +32,6 @@ brew install homebrew/dupes/screen
 brew install git
 
 # Install useful macOS GUI applications via Homebrew Cask.
-brew cask install 1password
 brew cask install atom
 brew cask install backblaze
 brew cask install dropbox
@@ -40,7 +39,6 @@ brew cask install firefox
 brew cask install github-desktop
 brew cask install google-chrome
 brew cask install qbittorrent
-brew cask install slack
 brew cask install spotify
 brew cask install tunnelblick
 brew cask install vlc
