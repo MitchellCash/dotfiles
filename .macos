@@ -72,6 +72,8 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Empty Trash securely by default
 defaults write com.apple.finder EmptyTrashSecurely -bool true
+# Revert with:
+# defaults delete com.apple.finder EmptyTrashSecurely
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
