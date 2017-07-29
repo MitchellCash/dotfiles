@@ -36,6 +36,14 @@ GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
+### Sensible macOS defaults
+
+When setting up a new Mac, set some sensible macOS defaults:
+
+```bash
+./.macos
+```
+
 ### Install Homebrew formulae
 
 When setting up a new Mac, install some common [Homebrew](http://brew.sh) formulae (after installing Homebrew, of course):
