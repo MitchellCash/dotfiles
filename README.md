@@ -36,3 +36,7 @@ GIT_AUTHOR_EMAIL="mitchell@mitchellcash.com"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
+
+## Thanks to…
+
+* [Mathias Bynens](https://mathiasbynens.be) and his [dotfiles repository](https://github.com/mathiasbynens/dotfiles)
