@@ -6,3 +6,6 @@ export GPG_TTY=$(tty);
 
 # Load rbenv automatically
 eval "$(rbenv init -)"
+
+# Load pyenv automatically
+eval "$(pyenv init -)"
