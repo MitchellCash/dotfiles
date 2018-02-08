@@ -30,6 +30,7 @@ brew install gnupg
 brew install git
 brew install pyenv
 brew install rbenv
+brew install nvm
 
 # Remove outdated versions from the cellar.
 brew cleanup
