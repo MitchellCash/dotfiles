@@ -20,6 +20,9 @@ if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
   chsh -s /usr/local/bin/bash;
 fi;
 
+# Install GNU File, Shell, and Text utilities
+brew install coreutils
+
 # Install `wget` with IRI support.
 brew install wget --with-iri
 
