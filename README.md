@@ -41,7 +41,7 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 When setting up a new Mac, set some sensible macOS defaults:
 
 ```bash
-./.macos
+./script/macos.sh
 ```
 
 ### Install Homebrew formulae
@@ -49,7 +49,7 @@ When setting up a new Mac, set some sensible macOS defaults:
 When setting up a new Mac, install some common [Homebrew](http://brew.sh) formulae (after installing Homebrew, of course):
 
 ```bash
-./brew.sh
+./script/brew.sh
 ```
 
 Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`.
