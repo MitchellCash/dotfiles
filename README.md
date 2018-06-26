@@ -1,5 +1,7 @@
 # Mitchell's dotfiles
 
+Status: [![Status](https://travis-ci.com/mitchellcash/dotfiles.svg?branch=master)](https://travis-ci.com/mitchellcash/dotfiles)
+
 ## Installation
 
 ### Using Git and the install script

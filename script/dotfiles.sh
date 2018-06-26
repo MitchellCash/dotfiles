@@ -9,6 +9,7 @@ function install_dotfiles() {
         --exclude "script/" \
         --exclude ".DS_Store" \
         --exclude ".macos" \
+        --exclude ".travis.yml" \
         --exclude "brew.sh" \
         --exclude "README.md" \
         -avh --no-perms . ~

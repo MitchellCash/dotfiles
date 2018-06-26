@@ -14,11 +14,14 @@ brew upgrade
 brew install bash
 brew install bash-completion2
 
-# Switch to using brew-installed bash as default shell
-if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
-  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
-  chsh -s /usr/local/bin/bash;
-fi;
+# Switch to using brew-installed bash as default shell. Don't change shell on
+# Travis CI.
+if [[ $TRAVIS_CI != "1" ]]; then
+  if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+    echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+    chsh -s /usr/local/bin/bash;
+  fi
+fi
 
 # Install GNU File, Shell, and Text utilities
 brew install coreutils

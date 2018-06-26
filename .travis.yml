@@ -1,0 +1,17 @@
+os: osx
+
+osx_image:
+    - xcode9.4 # OS X 10.13
+
+env:
+    - TRAVIS_CI=1
+
+before_install:
+    - brew update
+    - brew install shellcheck
+
+script:
+    - shellcheck script/install.sh
+    - shellcheck script/dotfiles.sh
+    - ./script/brew.sh
+    - ./script/install.sh -f

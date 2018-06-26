@@ -86,18 +86,20 @@ function reboot {
 }
 
 # Final success message and ask the user if they would like to restart the
-# system.
-if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-    success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Your system will reboot in 5 seconds."
-    reboot
-else
-    success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
-    read -r
-
-    if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-      log "Your system will reboot in 5 seconds."
-      reboot
+# system. Don't reboot on Travis CI.
+if [[ $TRAVIS_CI != "1" ]]; then
+    if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+        success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Your system will reboot in 5 seconds."
+        reboot
     else
-      error "Skipping system reboot. Please note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
+        success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
+        read -r
+
+        if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+            log "Your system will reboot in 5 seconds."
+            reboot
+        else
+            error "Skipping system reboot. Please note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
+        fi
     fi
 fi
