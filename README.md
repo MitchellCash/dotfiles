@@ -2,22 +2,22 @@
 
 ## Installation
 
-### Using Git and the bootstrap script
+### Using Git and the install script
 
 ```bash
-git clone https://github.com/mitchellcash/dotfiles.git && cd dotfiles && source script/bootstrap.sh
+git clone https://github.com/mitchellcash/dotfiles.git && cd dotfiles && source script/install.sh
 ```
 
 To update, `cd` into the `dotfiles` repository and then:
 
 ```bash
-source script/bootstrap.sh
+source script/install.sh
 ```
 
 Alternatively, to update while avoiding the confirmation prompt:
 
 ```bash
-set -- -f; source script/bootstrap.sh
+set -- -f; source script/install.sh
 ```
 
 ### Add custom commands
