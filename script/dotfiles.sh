@@ -8,7 +8,8 @@ cd "$DOTFILESDIRREL/.."
 
 # Function to install the dotfile to ~ only when changes are detected.
 function install_dotfiles() {
-    rsync --include ".aliases" \
+    rsync --include ".terminal-theme/***" \
+        --include ".aliases" \
         --include ".bash_profile" \
         --include ".bash_prompt" \
         --include ".bashrc" \
@@ -18,6 +19,7 @@ function install_dotfiles() {
         --include ".hushlogin" \
         --exclude "*" \
         -avh --no-perms . ~
+
     # shellcheck disable=SC1090
     source ~/.bash_profile;
 }
