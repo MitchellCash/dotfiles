@@ -13,5 +13,5 @@ before_install:
 script:
     - shellcheck script/install.sh
     - shellcheck script/dotfiles.sh
-    - ./script/brew.sh
+    - shellcheck script/brew.sh
     - ./script/install.sh -f

@@ -2,24 +2,33 @@
 
 Status: [![Status](https://travis-ci.com/mitchellcash/dotfiles.svg?branch=master)](https://travis-ci.com/mitchellcash/dotfiles)
 
-## Installation
+A script to bootstrap and configure a macOS system.
 
-### Using Git and the install script
+![dotfiles](https://user-images.githubusercontent.com/8009243/41946792-8be1acb2-79f7-11e8-97df-e027610cfd27.png)
+
+## Features
+
+* Installs Homebrew (for installing command-line software)
+* Installs Homebrew Bundle (for bundler-like Brewfile support)
+* Installs Homebrew Cask (for installing graphical software)
+* Installs software from a user's Brewfile in their home directory
+* Installs dotfiles into a user's home directory
+* Has a user friendly output with warnings when the user is about to perform a destructive action
+
+## Usage
+
+To run locally:
 
 ```bash
-git clone https://github.com/mitchellcash/dotfiles.git && cd dotfiles && source script/install.sh
+git clone https://github.com/mitchellcash/dotfiles.git
+cd dotfiles
+./script/install.sh
 ```
 
-To update, `cd` into the `dotfiles` repository and then:
+For help run:
 
 ```bash
-source script/install.sh
-```
-
-Alternatively, to update while avoiding the confirmation prompt:
-
-```bash
-set -- -f; source script/install.sh
+./script/install.sh --help
 ```
 
 ### Add custom commands
@@ -46,16 +55,10 @@ When setting up a new Mac, set some sensible macOS defaults:
 ./script/macos.sh
 ```
 
-### Install Homebrew formulae
-
-When setting up a new Mac, install some common [Homebrew](http://brew.sh) formulae (after installing Homebrew, of course):
-
-```bash
-./script/brew.sh
-```
-
-Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`.
-
 ## Thanks to…
 
-* [Mathias Bynens](https://mathiasbynens.be) and his [dotfiles repository](https://github.com/mathiasbynens/dotfiles)
+So many other cool dotfiles which inspired my own! To name a few:
+
+* Mathias Bynens inspiring me with his macOS defaults from his [dotfiles](https://github.com/mathiasbynens/dotfiles) repository
+* Mike McQuaid inspiring me with his Homebrew configuration from his [dotfiles](https://github.com/MikeMcQuaid/dotfiles) and [strap](https://github.com/MikeMcQuaid/strap) repositories
+* Adam Eivy inspiring me to have some fun and bring some colour to my terminal outputs from his [dotfiles](https://github.com/atomantic/dotfiles) repository

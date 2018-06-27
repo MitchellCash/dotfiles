@@ -62,25 +62,29 @@ function error() {
     echo -e "$COL_RED==>$COL_RESET_BOLD" "$1" "$COL_RESET"
 }
 
-function success {
+function success() {
     echo -e "$COL_GREEN==>$COL_RESET_BOLD" "$1" "$COL_RESET"
 }
 
 # Make sure not running as root user and that $USER is in the admin group.
-[ "$USER" = "root" ] && abort "Run bootstrap.sh as yourself, not root."
+[ "$USER" = "root" ] && abort "Run bootstrap.sh as yourself, not root"
 # shellcheck disable=SC2086
-groups | grep $Q admin &> /dev/null || abort "Add $USER to the admin group."
+groups | grep $Q admin &> /dev/null || abort "Add $USER to the admin group"
 
 # Check we are running latest version.
-log "Checking we are using the latest version"
+log "Checking we are using the latest version of the script"
 git pull origin master
+
+# Install Homebrew.
+# shellcheck disable=SC1090
+source "$DOTFILESDIRREL/brew.sh"
 
 # Install dotfiles.
 # shellcheck disable=SC1090
 source "$DOTFILESDIRREL/dotfiles.sh"
 
 # Function to reboot the computer after waiting 5 seconds.
-function reboot {
+function reboot() {
     sleep 5
     sudo shutdown -r now
 }
@@ -99,7 +103,7 @@ if [[ $TRAVIS_CI != "1" ]]; then
             log "Your system will reboot in 5 seconds."
             reboot
         else
-            error "Skipping system reboot. Please note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
+            error "Skipping system reboot. Note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
         fi
     fi
 fi

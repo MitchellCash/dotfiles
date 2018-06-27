@@ -1,42 +1,118 @@
 #!/usr/bin/env bash
+# Install command-line tools and applications using Homebrew.
 
-# Install command-line tools using Homebrew.
+log "Setting up Homebrew"
 
-# Make sure we’re using the latest Homebrew.
-brew update
+# shellcheck disable=SC2164
+cd "$DOTFILESDIRREL/.."
 
-# Upgrade any already-installed formulae.
-brew upgrade
+function install_homebrew() {
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
 
-# Install Bash 4.
-# Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
-# running `chsh`.
-brew install bash
-brew install bash-completion2
+function update_homebrew() {
+    brew update
+    brew upgrade
+}
 
-# Switch to using brew-installed bash as default shell. Don't change shell on
-# Travis CI.
-if [[ $TRAVIS_CI != "1" ]]; then
-  if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
-    echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
-    chsh -s /usr/local/bin/bash;
-  fi
+function cleanup_homebrew() {
+    brew cleanup
+}
+
+function install_homebrew_formulae() {
+    brew tap homebrew/bundle
+    brew bundle install --global
+}
+
+function brew_installed_bash() {
+    # Switch to using brew-installed bash as default shell. Don't change shell on
+    # Travis CI.
+    if [[ $TRAVIS_CI != "1" ]]; then
+        # shellcheck disable=SC2197
+        if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+            echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+            chsh -s /usr/local/bin/bash;
+        fi
+    fi
+}
+
+function install_brewfile() {
+    rsync --include ".Brewfile" \
+        --exclude "*" \
+        -avh --no-perms . ~
+    # Remove installation of cask and mas applications on Travis as they are
+    # likely to fail due to Travis restrictions.
+    if [[ $TRAVIS_CI = "1" ]]; then
+        sed -i '' '/cask*/d' ~/.Brewfile
+        sed -i '' '/mas*/d' ~/.Brewfile
+    fi
+}
+install_brewfile
+
+# Check if Homebrew is installed and ask to install. If Homebrew is not already
+# installed it will also proceed with installing all Homebrew formulae as it
+# assumes this is a new system. If Homebrew is already installed, it will ask
+# for confirmation from the user.
+log "Checking if Homebrew is installed."
+if test ! "$(command -v brew)"; then
+    if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+        log "Installing Homebrew"
+        install_homebrew
+        update_homebrew
+        cleanup_homebrew
+        success "Homebrew successfully installed!"
+        log "Installing Homebrew formulae"
+        install_homebrew_formulae
+        cleanup_homebrew
+        brew_installed_bash
+        success "Homebrew formulae successfully installed!"
+    else
+        log "Homebrew is required to continue with the setup of your dotfiles. Would you like to install Homebrew? [y/N]"
+        read -r
+
+        if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+            log "Proceeding with installing Homebrew"
+            install_homebrew
+            update_homebrew
+            cleanup_homebrew
+            success "Homebrew successfully installed!"
+            log "Installing Homebrew formulae"
+            install_homebrew_formulae
+            cleanup_homebrew
+            brew_installed_bash
+            success "Homebrew formulae successfully installed!"
+        else
+            abort "Homebrew is required to proceed with the installation of your dotfiles"
+        fi
+    fi
+else
+    success "Homebrew is already installed!"
+
+    if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+        log "Installing Homebrew formulae"
+        install_homebrew_formulae
+        cleanup_homebrew
+        brew_installed_bash
+        success "Homebrew formulae successfully installed!"
+    else
+        log "Would you like Homebrew to also install the taps, packages and applications found in ~/.Brewfile? [y/N]"
+        read -r
+
+        if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+            log "Proceeding with installing Homebrew formulae"
+            install_homebrew_formulae
+            cleanup_homebrew
+            brew_installed_bash
+            success "Homebrew formulae successfully installed!"
+        else
+            error "Skipping installing Homebrew formulae. Note this may cause issues if you are missing any packages that are referred to in your dotfiles."
+        fi
+    fi
 fi
 
-# Install GNU File, Shell, and Text utilities
-brew install coreutils
-
-# Install `wget` with IRI support.
-brew install wget --with-iri
-
-# Install GnuPG to enable PGP-signing commits.
-brew install gnupg
-
-# Install other useful binaries.
-brew install git
-brew install pyenv
-brew install rbenv
-brew install nvm
-
-# Remove outdated versions from the cellar.
-brew cleanup
+unset install_homebrew
+unset update_homebrew
+unset cleanup_homebrew
+unset install_homebrew_formulae
+unset brew_installed_bash
+unset install_brewfile

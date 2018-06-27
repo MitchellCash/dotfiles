@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
+# Install dotfiles to home directory.
+
+log "Setting up dotfiles"
 
 # shellcheck disable=SC2164
 cd "$DOTFILESDIRREL/.."
 
 # Function to install the dotfile to ~ only when changes are detected.
 function install_dotfiles() {
-    rsync --exclude ".git/" \
-        --exclude "script/" \
-        --exclude ".DS_Store" \
-        --exclude ".macos" \
-        --exclude ".travis.yml" \
-        --exclude "brew.sh" \
-        --exclude "README.md" \
+    rsync --include ".aliases" \
+        --include ".bash_profile" \
+        --include ".bash_prompt" \
+        --include ".bashrc" \
+        --include ".exports" \
+        --include ".gitconfig" \
+        --include ".gitignore" \
+        --include ".hushlogin" \
+        --exclude "*" \
         -avh --no-perms . ~
     # shellcheck disable=SC1090
     source ~/.bash_profile;
@@ -32,11 +37,8 @@ else
       install_dotfiles
       success "dotfiles successfully installed!"
     else
-      error "Skipping installing dotfiles."
+      error "Skipping installing dotfiles"
     fi
 fi
 
 unset install_dotfiles
-
-# shellcheck disable=SC2164
-cd "$DOTFILESDIRREL"
