@@ -85,5 +85,5 @@ eval "$(gdircolors $HOME/.terminal-theme/.dircolors)"
 # * ~/.extra can be used for other settings you don’t want to commit.
 for file in ~/.{bash_prompt,extra}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
+done
+unset file

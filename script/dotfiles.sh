@@ -6,19 +6,19 @@ log "Setting up dotfiles"
 # shellcheck disable=SC2164
 cd "$DOTFILESDIRREL/.."
 
-# Function to install the dotfile to ~ only when changes are detected.
+# Function to install the dotfiles to ~ only when changes are detected. Brewfile
+# is already installed in brew.sh so we won't install it again here. I also
+# rename the files to prepend the "." (dot) when they are synced to ~. The
+# reason I don't store them in the git repo with the dot is so that it is easier
+# to manage repo specific dotfiles like .gitignore etc.
 function install_dotfiles() {
-    rsync --include ".terminal-theme/***" \
-        --include ".aliases" \
-        --include ".bash_profile" \
-        --include ".bash_prompt" \
-        --include ".bashrc" \
-        --include ".exports" \
-        --include ".gitconfig" \
-        --include ".gitignore" \
-        --include ".hushlogin" \
-        --exclude "*" \
-        -avh --no-perms . ~
+    for file in {bash_profile,bash_prompt,bashrc,gitconfig,gitignore,hushlogin}; do
+        if [ -r "$file" ] && [ -f "$file" ]; then
+            rsync -avh --no-perms $file ~/.$file
+        fi
+    done
+
+    rsync -avh --no-perms --include=".terminal-theme/***" --exclude="*" . ~
 
     # shellcheck disable=SC1090
     source ~/.bash_profile;

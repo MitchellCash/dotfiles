@@ -37,9 +37,7 @@ function brew_installed_bash() {
 }
 
 function install_brewfile() {
-    rsync --include ".Brewfile" \
-        --exclude "*" \
-        -avh --no-perms . ~
+    rsync -avh --no-perms Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
     # likely to fail due to Travis restrictions.
     if [[ $TRAVIS_CI = "1" ]]; then
