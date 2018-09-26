@@ -20,7 +20,6 @@ function cleanup_homebrew() {
 }
 
 function install_homebrew_formulae() {
-    brew tap homebrew/bundle
     brew bundle install --global
 }
 
