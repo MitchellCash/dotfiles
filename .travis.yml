@@ -1,17 +1,28 @@
 os: osx
-
-osx_image:
-    - xcode9.4 # OS X 10.13
-
+stages:
+    - lint
+    - test
 env:
-    - TRAVIS_CI=1
+    global:
+        - TRAVIS_CI=1
+jobs:
+    include:
+        # Lint stage
+        - stage: lint
+          language: bash
+          install:
+              - brew install shellcheck
+          script:
+              - shellcheck script/*.sh
 
-before_install:
-    - brew update
-    - brew install shellcheck
+        # macOS High Sierra (version 10.12)
+        - stage: test
+          osx_image: xcode9.2
+          script:
+              - ./script/install.sh -f
 
-script:
-    - shellcheck script/install.sh
-    - shellcheck script/dotfiles.sh
-    - shellcheck script/brew.sh
-    - ./script/install.sh -f
+        # macOS High Sierra (version 10.13)
+        - stage: test
+          osx_image: xcode10
+          script:
+              - ./script/install.sh -f
