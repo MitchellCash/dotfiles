@@ -67,6 +67,8 @@ fi
 
 # Use GNU ls with color output for `ls`.
 alias ls="gls --color"
+alias sha256sum="gsha256sum"
+alias sha512sum="gsha512sum"
 
 # Always enable colored `grep` output.
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
@@ -79,11 +81,7 @@ alias egrep='egrep --color=auto'
 #########
 
 # Use a modified Solarized Dark 256 color theme for the color GNU ls utility
-eval "$(gdircolors $HOME/.terminal-theme/.dircolors)"
+eval "$(gdircolors $HOME/.terminal-theme/dircolors)"
 
-# Load the shell dotfiles, and then some:
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done
-unset file
+# Load the Solarized Dark theme for the shell
+source ~/.bash_prompt
