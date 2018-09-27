@@ -19,35 +19,12 @@ The scripts are tested and confirmed to work on both macOS `10.12` and `10.13`.
 
 ## Usage
 
-To run locally:
+Customise the `user.name` and `user.email` in [`gitconfig`](https://github.com/MitchellCash/dotfiles/blob/master/gitconfig).
 
-```bash
-git clone https://github.com/mitchellcash/dotfiles.git
-cd dotfiles
-./script/install.sh
-```
+Run [`install.sh`](https://github.com/MitchellCash/dotfiles/blob/master/script/install.sh)
+located in the `script` directory.
 
-For help run:
-
-```bash
-./script/install.sh --help
-```
-
-### Add custom commands
-
-If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands, or to add commands you don’t want to commit to a public repository.
-
-My `~/.extra` looks something like this:
-
-```bash
-# Git credentials
-GIT_AUTHOR_NAME="Mitchell Cash"
-GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="mitchell@mitchellcash.com"
-GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
-```
+For help you can run `install.sh --help`.
 
 ### Sensible macOS defaults
 
