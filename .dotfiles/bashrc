@@ -43,23 +43,13 @@ fi
 
 # Add pyenv to PATH if it exists. We check with the 'which' command rather than
 # checking if the directory exists in case pyenv has been uninstalled and
-# folders were not removed in the process. Travis check because Travis doing
-# Travis things.
-if [[ $TRAVIS_CI != "1" ]]; then
-    quiet_which pyenv && add_to_path "$(pyenv root)/shims"
-else
-    quiet_which pyenv && export PATH="$(pyenv root)/shims:$PATH"
-fi
+# folders were not removed in the process.
+quiet_which pyenv && eval "$(pyenv init -)"
 
 # Add rbenv to PATH if it exists. We check with the 'which' command rather than
 # checking if the directory exists in case pyenv has been uninstalled and
-# folders were not removed in the process. Travis check because Travis doing
-# Travis things.
-if [[ $TRAVIS_CI != "1" ]]; then
-    quiet_which pyenv && add_to_path "$(rbenv root)/shims"
-else
-    quiet_which pyenv && export PATH="$(rbenv root)/shims:$PATH"
-fi
+# folders were not removed in the process.
+quiet_which rbenv && eval "$(rbenv init -)"
 
 ###########
 # Aliases #
