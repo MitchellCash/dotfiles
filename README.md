@@ -19,10 +19,9 @@ The scripts are tested and confirmed to work on both macOS `10.12` and `10.13`.
 
 ## Usage
 
-Customise the `user.name` and `user.email` in [`gitconfig`](https://github.com/MitchellCash/dotfiles/blob/master/gitconfig).
+Customise the `user.name` and `user.email` in [`gitconfig`](https://github.com/MitchellCash/dotfiles/blob/master/.dotfiles/gitconfig).
 
-Run [`install.sh`](https://github.com/MitchellCash/dotfiles/blob/master/script/install.sh)
-located in the `script` directory.
+Run [`install.sh`](https://github.com/MitchellCash/dotfiles/blob/master/install.sh).
 
 For help you can run `install.sh --help`.
 

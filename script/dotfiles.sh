@@ -3,22 +3,21 @@
 
 log "Setting up dotfiles"
 
-# shellcheck disable=SC2164
-cd "$DOTFILESDIRREL/.."
-
 # Function to install the dotfiles to ~ only when changes are detected. Brewfile
 # is already installed in brew.sh so we won't install it again here. I also
 # rename the files to prepend the "." (dot) when they are synced to ~. The
 # reason I don't store them in the git repo with the dot is so that it is easier
 # to manage repo specific dotfiles like .gitignore etc.
 function install_dotfiles() {
+    cd .dotfiles || exit
     for file in {bash_profile,bash_prompt,bashrc,gitconfig,gitignore,hushlogin}; do
         if [ -r "$file" ] && [ -f "$file" ]; then
             rsync -avh --no-perms $file ~/.$file
         fi
     done
+    cd .. || exit
 
-    for folder in {terminal-theme,gnupg}; do
+    for folder in {gnupg,ssh,terminal-theme}; do
         if [ -d ".$folder" ]; then
             rsync -avh --no-perms .$folder/ ~/.$folder
         fi

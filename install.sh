@@ -77,11 +77,11 @@ git pull origin master
 
 # Install Homebrew.
 # shellcheck disable=SC1090
-source "$DOTFILESDIRREL/brew.sh"
+source "$DOTFILESDIRREL/script/brew.sh"
 
 # Install dotfiles.
 # shellcheck disable=SC1090
-source "$DOTFILESDIRREL/dotfiles.sh"
+source "$DOTFILESDIRREL/script/dotfiles.sh"
 
 # Function to reboot the computer after waiting 5 seconds.
 function reboot() {

@@ -3,9 +3,6 @@
 
 log "Setting up Homebrew"
 
-# shellcheck disable=SC2164
-cd "$DOTFILESDIRREL/.."
-
 function install_homebrew() {
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
@@ -27,8 +24,7 @@ function brew_installed_bash() {
     # Switch to using brew-installed bash as default shell. Don't change shell on
     # Travis CI.
     if [[ $TRAVIS_CI != "1" ]]; then
-        # shellcheck disable=SC2197
-        if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+        if ! grep -Fq '/usr/local/bin/bash' /etc/shells; then
             echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
             chsh -s /usr/local/bin/bash;
         fi
@@ -36,7 +32,7 @@ function brew_installed_bash() {
 }
 
 function install_brewfile() {
-    rsync -avh --no-perms Brewfile ~/.Brewfile
+    rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
     # likely to fail due to Travis restrictions.
     if [[ $TRAVIS_CI = "1" ]]; then

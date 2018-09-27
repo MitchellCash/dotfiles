@@ -13,16 +13,17 @@ jobs:
           install:
               - brew install shellcheck
           script:
+              - shellcheck install.sh
               - shellcheck script/*.sh
 
         # macOS High Sierra (version 10.12)
         - stage: test
           osx_image: xcode9.2
           script:
-              - ./script/install.sh -f
+              - ./install.sh -f
 
         # macOS High Sierra (version 10.13)
         - stage: test
           osx_image: xcode10
           script:
-              - ./script/install.sh -f
+              - ./install.sh -f
