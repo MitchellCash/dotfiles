@@ -18,7 +18,11 @@ function install_dotfiles() {
         fi
     done
 
-    rsync -avh --no-perms --include=".terminal-theme/***" --exclude="*" . ~
+    for folder in {terminal-theme,gnupg}; do
+        if [ -d ".$folder" ]; then
+            rsync -avh --no-perms .$folder/ ~/.$folder
+        fi
+    done
 
     # shellcheck disable=SC1090
     source ~/.bash_profile;
