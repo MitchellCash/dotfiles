@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#
 # Install command-line tools and applications using Homebrew.
 
 log "Setting up Homebrew"

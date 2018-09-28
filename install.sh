@@ -83,6 +83,10 @@ source "$DOTFILESDIRREL/script/brew.sh"
 # shellcheck disable=SC1090
 source "$DOTFILESDIRREL/script/dotfiles.sh"
 
+# Install macOS defaults.
+# shellcheck disable=SC1090
+source "$DOTFILESDIRREL/script/macos.sh"
+
 # Function to reboot the computer after waiting 5 seconds.
 function reboot() {
     sleep 5

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#
 # Install dotfiles to home directory.
 
 log "Setting up dotfiles"
