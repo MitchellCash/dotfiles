@@ -1,6 +1,6 @@
 # Mitchell's dotfiles
 
-Status: [![Status](https://travis-ci.com/mitchellcash/dotfiles.svg?branch=master)](https://travis-ci.com/mitchellcash/dotfiles)
+Status: [![Status](https://travis-ci.com/MitchellCash/dotfiles.svg?branch=master)](https://travis-ci.com/MitchellCash/dotfiles)
 
 A script to bootstrap and configure a macOS system.
 
