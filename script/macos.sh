@@ -227,10 +227,18 @@ function setup_macos() {
 	defaults write com.apple.terminal StringEncodings -array 4
 
 	# Use a modified version of the Solarized Dark theme by default in Terminal.app
-	open "$HOME/.terminal-theme/Solarized Dark xterm-256color.terminal"
-	sleep 5
-	defaults write com.apple.Terminal "Default Window Settings" -string "Solarized Dark xterm-256color"
-	defaults write com.apple.Terminal "Startup Window Settings" -string "Solarized Dark xterm-256color"
+osascript <<EOD
+
+tell application "Terminal"
+	set custom title of every window to "alreadyOpenedTerminalWindows"
+	do shell script "open '$HOME/.terminal-theme/Solarized Dark xterm-256color.terminal'"
+    do shell script "sleep 10"
+	do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'Solarized Dark xterm-256color'"
+	do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'Solarized Dark xterm-256color'"
+	close (every window whose name does not contain "alreadyOpenedTerminalWindows")
+end tell
+	
+EOD
 
 	# TextEdit
 	# ========
