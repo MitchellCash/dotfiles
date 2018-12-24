@@ -67,7 +67,7 @@ cask "vlc"
 
 # Install applications from the Mac App Store.
 mas "1Password 7", id: 1333542190
-mas "Airmail 3", id: 918858936
 mas "Magnet", id: 441258766
 mas "Reeder", id: 880001334
+mas "Spark", id: 1176895641
 mas "Xcode", id: 497799835
