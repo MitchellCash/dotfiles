@@ -21,6 +21,13 @@ brew "bash-completion@2"
 # I then use bash aliases to use the GNU utilities rather than the BSD variants.
 brew "coreutils"
 
+# Useful packages.
+brew "git"
+brew "pyenv"
+brew "rbenv"
+brew "shellcheck"
+brew "wget"
+
 # Bitcoin/altcoin development.
 brew "automake"
 brew "berkeley-db4"
@@ -36,14 +43,11 @@ brew "protobuf"
 brew "qrencode"
 brew "qt"
 
-# Install other useful packages.
-brew "git"
-brew "pyenv"
-brew "rbenv"
-brew "shellcheck"
-brew "wget"
+# Web Development.
+brew "node@10"
 
 # Install macOS applications distributed as binaries.
+cask "adobe-creative-cloud"
 cask "cleanmymac"
 cask "discord"
 cask "dropbox"
@@ -51,6 +55,9 @@ cask "firefox"
 cask "gimp"
 cask "google-chrome"
 cask "gpg-suite"
+cask "imageoptim"
+cask "keybase"
+cask "ledger-live"
 cask "plex-media-player"
 cask "qbittorrent"
 cask "sdformatter"
@@ -59,7 +66,6 @@ cask "sourcetree"
 cask "spotify"
 cask "steam"
 cask "torbrowser"
-cask "tunnelblick"
 cask "virtualbox"
 cask "visual-studio-code"
 cask "vlc"
@@ -67,6 +73,11 @@ cask "vlc"
 # Install applications from the Mac App Store.
 mas "1Password 7", id: 1333542190
 mas "Magnet", id: 441258766
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft PowerPoint", id: 462062816
+mas "Microsoft Word", id: 462054704
 mas "Reeder", id: 880001334
 mas "Spark", id: 1176895641
+mas "Telegram", id: 747648890
+mas "WireGuard", id: 1451685025
 mas "Xcode", id: 497799835
