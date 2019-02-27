@@ -187,6 +187,14 @@ function setup_macos() {
 		OpenWith -bool true \
 		Privileges -bool true
 
+    # iTunes
+	# ======
+
+	log "Setting iTunes preferences"
+
+	# Don't open iTunes when a device is plugged in
+	defaults write com.apple.iTunes dontAutomaticallySyncIPods -bool true
+
 	# Screen Capture
 	# ==============
 
