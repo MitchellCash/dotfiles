@@ -24,15 +24,30 @@ function install_homebrew_formulae() {
     brew bundle install --global
 }
 
-function brew_installed_bash() {
-    # Switch to using brew-installed bash as default shell. Don't change shell on
-    # Travis CI.
+function configure_brew_installed_apps() {
+    # Switch to using brew-installed bash as default shell. Don't change shell
+    # on Travis CI.
     if [[ $TRAVIS_CI != "1" ]]; then
         if ! grep -Fq "${BREW_PREFIX}/bin/bash" /etc/shells; then
             echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells;
             chsh -s "${BREW_PREFIX}/bin/bash";
         fi
     fi
+
+    # Install VS Code extensions.
+    EXTENSIONS="$(code --list-extensions)"
+
+    grep -v '^ *#' < "$(dirname "$0")"/../vscode/vscode-extensions | while IFS= read -r EXTENSION
+    do
+        if echo "$EXTENSIONS" | grep -q "$EXTENSION"; then
+            echo "Extension '$EXTENSION' is already installed."
+        else
+            code --install-extension "$EXTENSION"
+        fi
+    done
+
+    # Configure VS Code settings.
+    cp "$(dirname "$0")"/../vscode/settings.json "$HOME"/Library/Application\ Support/Code/User/settings.json
 }
 
 function install_brewfile() {
@@ -61,7 +76,7 @@ if test ! "$(command -v brew)"; then
         log "Installing Homebrew formulae"
         install_homebrew_formulae
         cleanup_homebrew
-        brew_installed_bash
+        configure_brew_installed_apps
         success "Homebrew formulae successfully installed!"
     else
         log "Homebrew is required to continue with the setup of your dotfiles. Would you like to install Homebrew? [y/N]"
@@ -76,7 +91,7 @@ if test ! "$(command -v brew)"; then
             log "Installing Homebrew formulae"
             install_homebrew_formulae
             cleanup_homebrew
-            brew_installed_bash
+            configure_brew_installed_apps
             success "Homebrew formulae successfully installed!"
         else
             abort "Homebrew is required to proceed with the installation of your dotfiles"
@@ -89,7 +104,7 @@ else
         log "Installing Homebrew formulae"
         install_homebrew_formulae
         cleanup_homebrew
-        brew_installed_bash
+        configure_brew_installed_apps
         success "Homebrew formulae successfully installed!"
     else
         log "Would you like Homebrew to also install the taps, packages and applications found in ~/.Brewfile? [y/N]"
@@ -99,7 +114,7 @@ else
             log "Proceeding with installing Homebrew formulae"
             install_homebrew_formulae
             cleanup_homebrew
-            brew_installed_bash
+            configure_brew_installed_apps
             success "Homebrew formulae successfully installed!"
         else
             error "Skipping installing Homebrew formulae. Note this may cause issues if you are missing any packages that are referred to in your dotfiles."
@@ -111,5 +126,5 @@ unset install_homebrew
 unset update_homebrew
 unset cleanup_homebrew
 unset install_homebrew_formulae
-unset brew_installed_bash
+unset configure_brew_installed_apps
 unset install_brewfile
