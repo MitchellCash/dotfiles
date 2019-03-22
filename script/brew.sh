@@ -13,7 +13,12 @@ function install_homebrew() {
 
 function update_homebrew() {
     brew update
-    brew upgrade
+
+    # The Travis build servers come with a lot of pre-installed Brew formulas,
+    # let's not go and upgrade them all.
+    if [[ $TRAVIS_CI != "1" ]]; then
+        brew upgrade
+    fi
 }
 
 function cleanup_homebrew() {
