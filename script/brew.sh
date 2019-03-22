@@ -101,6 +101,7 @@ else
     success "Homebrew is already installed!"
 
     if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+        update_homebrew
         log "Installing Homebrew formulae"
         install_homebrew_formulae
         cleanup_homebrew
@@ -111,6 +112,7 @@ else
         read -r
 
         if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+            update_homebrew
             log "Proceeding with installing Homebrew formulae"
             install_homebrew_formulae
             cleanup_homebrew
