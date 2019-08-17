@@ -4,7 +4,18 @@
 # status denotes failure).
 set -e
 
-# Show help
+# Store relative path as a variable.
+readonly DOTFILESDIRREL=$(dirname "$0")
+
+# Colors for terminal log outputs.
+readonly COL_RESET="\033[00m"
+readonly COL_BOLD="\033[01m"
+readonly COL_RED="\033[31m"
+readonly COL_GREEN="\033[32m"
+readonly COL_YELLOW="\033[33m"
+readonly COL_PURPLE="\033[34m"
+
+# Show help.
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "Usage: install.sh [OPTION]
 Install configured dotfiles to the root of a macOS system.
@@ -19,24 +30,13 @@ fi
 # rather than doing root stuff unexpectedly.
 sudo -k
 
-# Store relative path as a variable.
-DOTFILESDIRREL=$(dirname "$0")
-
-# Colors for terminal log outputs.
-ESC_SEQ="\\x1b["
-COL_RESET=$ESC_SEQ"39;49;00m"
-COL_RESET_BOLD=$ESC_SEQ"39;49;01m"
-COL_GREEN=$ESC_SEQ"32m"
-COL_PURPLE=$ESC_SEQ"34m"
-COL_RED=$ESC_SEQ"31m"
-
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
     if ! sudo -vn &>/dev/null; then
       if [ -n "$BOOTSTRAP_SUDOED_ONCE" ]; then
-        echo -e "$COL_PURPLE==>$COL_RESET_BOLD Re-enter your password (for sudo access; sudo has timed out)$COL_RESET"
+        echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Re-enter your password (for sudo access; sudo has timed out)${COL_RESET}"
       else
-        echo -e "$COL_PURPLE==>$COL_RESET_BOLD Enter your password (for sudo access)$COL_RESET"
+        echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Enter your password (for sudo access)${COL_RESET}"
       fi
       sudo /usr/bin/true
       BOOTSTRAP_SUDOED_ONCE="1"
@@ -44,35 +44,35 @@ sudo_init() {
 }
 
 # Colourful terminal log outputs.
-function log() {
+function log_info() {
     # Everytime we log an output also check if sudo is initialised. It is doubtful
     # that a password will need to be entered more than once as the script
     # shouldn't take long to run. But in the event it does at least it will be at
     # a more sensible time with a more sensible message.
     sudo_init
-    echo -e "$COL_PURPLE==>$COL_RESET_BOLD" "$1" "$COL_RESET"
+    printf "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
-function abort() {
-    echo -e "$COL_RED==>$COL_RESET_BOLD Error!" "$1" "$COL_RESET"
+function log_success() {
+    printf "${COL_GREEN}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
+}
+
+function log_warn() {
+    printf "${COL_YELLOW}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
+}
+
+function log_error() {
+    printf "${COL_RED}==>${COL_RESET}${COL_BOLD} Error: %b${COL_RESET}\r\n" "$1"
     exit 1
 }
 
-function error() {
-    echo -e "$COL_RED==>$COL_RESET_BOLD" "$1" "$COL_RESET"
-}
-
-function success() {
-    echo -e "$COL_GREEN==>$COL_RESET_BOLD" "$1" "$COL_RESET"
-}
-
 # Make sure not running as root user and that $USER is in the admin group.
-[ "$USER" = "root" ] && abort "Run bootstrap.sh as yourself, not root"
+[ "$USER" = "root" ] && log_error "Run bootstrap.sh as yourself, not root"
 # shellcheck disable=SC2086
-groups | grep $Q admin &> /dev/null || abort "Add $USER to the admin group"
+groups | grep $Q admin &> /dev/null || log_error "Add $USER to the admin group"
 
 # Check we are running latest version.
-log "Checking we are using the latest version of the script"
+log_info "Checking we are using the latest version of the script"
 git pull origin master
 
 # Install Homebrew.
@@ -97,17 +97,17 @@ function reboot() {
 # system. Don't reboot on Travis CI.
 if [[ $TRAVIS_CI != "1" ]]; then
     if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-        success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Your system will reboot in 5 seconds."
+        log_success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Your system will reboot in 5 seconds."
         reboot
     else
-        success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
+        log_success "Your system has been successfully setup! Note some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
         read -r
 
         if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-            log "Your system will reboot in 5 seconds."
+            log_info "Your system will reboot in 5 seconds."
             reboot
         else
-            error "Skipping system reboot. Note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
+            log_warn "Skipping system reboot. Note that although most things will function without issue, there could be certain undesired effects until the next time you reboot."
         fi
     fi
 fi

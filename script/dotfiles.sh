@@ -2,7 +2,7 @@
 #
 # Install dotfiles to home directory.
 
-log "Setting up dotfiles"
+log_info "Setting up dotfiles"
 
 # Function to install the dotfiles to ~ only when changes are detected. Brewfile
 # is already installed in brew.sh so we won't install it again here. I also
@@ -31,19 +31,19 @@ function install_dotfiles() {
 # Confirm with the user that proceeding to install the dotfiles can be
 # destructive.
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-    log "Installing dotfiles to ~"
+    log_info "Installing dotfiles to ~"
     install_dotfiles
-    success "dotfiles successfully installed!"
+    log_success "dotfiles successfully installed!"
 else
-    log "Installing dotfiles to ~ may overwrite existing files in your home directory. Are you sure? [y/N]"
+    log_info "Installing dotfiles to ~ may overwrite existing files in your home directory. Are you sure? [y/N]"
     read -r
 
     if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-      log "Proceeding with installing dotfiles to ~"
+      log_info "Proceeding with installing dotfiles to ~"
       install_dotfiles
-      success "dotfiles successfully installed!"
+      log_success "dotfiles successfully installed!"
     else
-      error "Skipping installing dotfiles"
+      log_warn "Skipping installing dotfiles"
     fi
 fi
 

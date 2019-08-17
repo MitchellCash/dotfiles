@@ -2,13 +2,13 @@
 #
 # macOS configurations and defaults.
 
-log "Preparing to setup macOS"
+log_info "Preparing to setup macOS"
 
 function setup_macos() {
 
 	# Close any open System Preferences panes, to prevent them from overriding
 	# settings we’re about to change
-	log "Quitting System Preferences app"
+	log_info "Quitting System Preferences app"
 	osascript -e 'tell application "System Preferences" to quit'
 
 	###########################################################################
@@ -18,7 +18,7 @@ function setup_macos() {
 	# Global
 	# ======
 
-	log "Setting Global preferences"
+	log_info "Setting Global preferences"
 
 	# Always show scroll bars
 	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
@@ -58,7 +58,7 @@ function setup_macos() {
 	# Dashboard
 	# =========
 
-	log "Setting Dashboard preferences"
+	log_info "Setting Dashboard preferences"
 
 	# Disable Dashboard
 	defaults write com.apple.dashboard mcx-disabled -bool true
@@ -66,7 +66,7 @@ function setup_macos() {
 	# Dock
 	# ====
 
-	log "Setting Dock preferences"
+	log_info "Setting Dock preferences"
 
 	# Minimise windows using scale effect
 	defaults write com.apple.dock mineffect -string "scale"
@@ -135,7 +135,7 @@ function setup_macos() {
 	# Finder
 	# ======
 
-	log "Setting Finder preferences"
+	log_info "Setting Finder preferences"
 
 	# Hide hard disks, external disks, connected servers, CDs, DVDs, and iPods on the desktop.
 	defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
@@ -190,7 +190,7 @@ function setup_macos() {
     # iTunes
 	# ======
 
-	log "Setting iTunes preferences"
+	log_info "Setting iTunes preferences"
 
 	# Don't open iTunes when a device is plugged in
 	defaults write com.apple.iTunes dontAutomaticallySyncIPods -bool true
@@ -198,7 +198,7 @@ function setup_macos() {
 	# Screen Capture
 	# ==============
 
-	log "Setting Screen Capture preferences"
+	log_info "Setting Screen Capture preferences"
 
 	# Disable shadow in screenshots
 	defaults write com.apple.screencapture disable-shadow -bool true
@@ -206,7 +206,7 @@ function setup_macos() {
 	# Screensaver
 	# ===========
 
-	log "Setting Screensaver preferences"
+	log_info "Setting Screensaver preferences"
 
 	# Require password immediately after sleep or screen saver begins
 	defaults write com.apple.screensaver askForPassword -int 1
@@ -215,7 +215,7 @@ function setup_macos() {
 	# Siri
 	# ====
 
-	log "Setting Siri preferences"
+	log_info "Setting Siri preferences"
 
 	# Hide Siri in menu bar.
 	defaults write com.apple.Siri StatusMenuVisible -bool false
@@ -223,7 +223,7 @@ function setup_macos() {
 	# Terminal
 	# ========
 
-	log "Setting Terminal preferences"
+	log_info "Setting Terminal preferences"
 
 	# Enable Secure Keyboard Entry in Terminal.app.
 	defaults write com.apple.Terminal SecureKeyboardEntry -bool true
@@ -245,13 +245,13 @@ tell application "Terminal"
 	do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'Solarized Dark xterm-256color'"
 	close (every window whose name does not contain "alreadyOpenedTerminalWindows")
 end tell
-	
+
 EOD
 
 	# TextEdit
 	# ========
 
-	log "Setting TextEdit preferences"
+	log_info "Setting TextEdit preferences"
 
 	# Use plain text mode for new TextEdit documents
 	defaults write com.apple.TextEdit RichText -int 0
@@ -279,18 +279,18 @@ EOD
 
 # Confirm with the user that proceeding to install may have undesired affects
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-	log "Configuring macOS"
+	log_info "Configuring macOS"
 	setup_macos
-	success "macOS successfully configured!"
+	log_success "macOS successfully configured!"
 else
-	log "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is chaning. Do you wish to proceed? [y/N]"
+	log_info "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is chaning. Do you wish to proceed? [y/N]"
 	read -r
 
 	if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-		log "Proceeding with configuring macOS"
+		log_info "Proceeding with configuring macOS"
 		setup_macos
-		success "macOS successfully configured!"
+		log_success "macOS successfully configured!"
 	else
-		error "Skipping configuring macOS"
+		log_warn "Skipping configuring macOS"
 	fi
 fi
