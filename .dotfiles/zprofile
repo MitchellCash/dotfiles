@@ -1,0 +1,5 @@
+# Source .zshrc from .zprofile file
+# https://stackoverflow.com/a/415444
+if [[ -r ~/.zshrc ]]; then
+    source ~/.zshrc
+fi

@@ -11,12 +11,6 @@ tap "homebrew/core"
 # Install mas - a command line interface for installing Mac App Store apps.
 brew "mas"
 
-# Install Bash 4.
-# Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
-# running `chsh`. This is done in the brew_installed_bash function in brew.sh.
-brew "bash"
-brew "bash-completion@2"
-
 # Install GNU File, Shell, and Text utilities.
 # I then use bash aliases to use the GNU utilities rather than the BSD variants.
 brew "coreutils"

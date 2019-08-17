@@ -87,6 +87,10 @@ source "$DOTFILESDIRREL/script/dotfiles.sh"
 # shellcheck disable=SC1090
 source "$DOTFILESDIRREL/script/macos.sh"
 
+# Final system configuration.
+# shellcheck disable=SC1090
+source "$DOTFILESDIRREL/script/after_install.sh"
+
 # Function to reboot the computer after waiting 5 seconds.
 function reboot() {
     sleep 5

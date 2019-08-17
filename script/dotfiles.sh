@@ -11,7 +11,7 @@ log_info "Setting up dotfiles"
 # to manage repo specific dotfiles like .gitignore etc.
 function install_dotfiles() {
     cd .dotfiles || exit
-    for file in {bash_profile,bash_prompt,bashrc,gitconfig,gitignore,hushlogin}; do
+    for file in {zprofile,zshrc,gitconfig,gitignore,hushlogin}; do
         if [ -r "$file" ] && [ -f "$file" ]; then
             rsync -avh --no-perms $file ~/.$file
         fi
@@ -23,9 +23,6 @@ function install_dotfiles() {
             rsync -avh --no-perms .$folder/ ~/.$folder
         fi
     done
-
-    # shellcheck disable=SC1090
-    source ~/.bash_profile;
 }
 
 # Confirm with the user that proceeding to install the dotfiles can be

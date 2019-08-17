@@ -30,15 +30,6 @@ function install_homebrew_formulae() {
 }
 
 function configure_brew_installed_apps() {
-    # Switch to using brew-installed bash as default shell. Don't change shell
-    # on Travis CI.
-    if [[ $TRAVIS_CI != "1" ]]; then
-        if ! grep -Fq "${BREW_PREFIX}/bin/bash" /etc/shells; then
-            echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells;
-            chsh -s "${BREW_PREFIX}/bin/bash";
-        fi
-    fi
-
     # Install VS Code extensions.
     EXTENSIONS="$(code --list-extensions)"
 
