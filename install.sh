@@ -28,7 +28,7 @@ fi
 
 # Reset sudo timestamp so we always prompt for sudo password at least once
 # rather than doing root stuff unexpectedly.
-sudo -k
+sudo --reset-timestamp
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
