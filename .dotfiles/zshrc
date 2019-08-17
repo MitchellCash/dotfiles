@@ -58,9 +58,18 @@ setopt APPEND_HISTORY
 # Don't store history commands.
 setopt HIST_NO_STORE
 
-#################
-# pyenv & rbenv #
-#################
+######################
+# nvm, pyenv & rbenv #
+######################
+
+# Set nvm directory location.
+export NVM_DIR="$HOME/.nvm"
+
+# This loads nvm.
+[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"
+
+# This loads nvm bash_completion.
+[[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"
 
 # Check for pyenv and if available run the init script. Place towards the end of
 # .zshrc because it manipulates PATH during the initialization.
