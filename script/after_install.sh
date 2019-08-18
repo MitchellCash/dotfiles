@@ -12,17 +12,17 @@ else
   log_info "Configuring Visual Studio Code"
 
   # Install Visual Studio Code extensions.
-  for EXTENSION in "$(cat $(dirname $0)/../vscode/vscode-extensions)"; do
+  while IFS= read -r EXTENSION; do
     if echo "${EXTENSIONS}" | grep -q "${EXTENSION}"; then
       log_warn "Extension ${EXTENSION} is already installed"
     else
       log_info "Installing ${EXTENSION}"
       code --install-extension "${EXTENSION}"
     fi
-  done
+  done < "${DOTFILESDIRREL}"/vscode/vscode-extensions
 
   # Configure Visual Studio Code settings.
-  cp "$(dirname "$0")"/../vscode/settings.json "${HOME}"/Library/Application\ Support/Code/User/settings.json
+  cp "${DOTFILESDIRREL}"/vscode/settings.json "${HOME}"/Library/Application\ Support/Code/User/settings.json
 fi
 
 # Switch to Z shell. This requires the user to input their password.
