@@ -278,7 +278,7 @@ EOD
 }
 
 # Confirm with the user that proceeding to install may have undesired affects
-if [[ ${FORCE} ]]; then
+if [[ ${FORCE} -eq 1 ]]; then
 	log_info "Configuring macOS"
 	setup_macos
 	log_success "macOS successfully configured!"

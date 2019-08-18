@@ -27,37 +27,40 @@ Options:
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
-    if ! sudo -vn &>/dev/null; then
-      if [ -n "$BOOTSTRAP_SUDOED_ONCE" ]; then
-        echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Re-enter your password (for sudo access; sudo has timed out)${COL_RESET}"
-      else
-        echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Enter your password (for sudo access)${COL_RESET}"
-      fi
-      sudo /usr/bin/true
-      BOOTSTRAP_SUDOED_ONCE=1
+  if [[ ! sudo -vn &> /dev/null ]]; then
+    if [[ "${BOOTSTRAP_SUDOED_ONCE}" -eq 1 ]]; then
+      # Use "echo" here, instead of log_info. It's too early.
+      echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Re-enter your password (for sudo access; sudo has timed out)${COL_RESET}"
+    else
+      # Use "echo" here, instead of log_info. It's too early.
+      echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Enter your password (for sudo access)${COL_RESET}"
     fi
+    sudo /usr/bin/true
+    BOOTSTRAP_SUDOED_ONCE=1
+  fi
 }
 
 # Colourful terminal log outputs.
 log_info() {
-    # Everytime we log an output also check if sudo is initialised. It is doubtful
-    # that a password will need to be entered more than once as the script
-    # shouldn't take long to run. But in the event it does at least it will be at
-    # a more sensible time with a more sensible message.
-    sudo_init
-    printf "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
+  # Everytime we log an output also check if sudo is initialised. It is doubtful
+  # that a password will need to be entered more than once as the script
+  # shouldn't take long to run. But in the event it does at least it will be at
+  # a more sensible time with a more sensible message.
+  sudo_init
+
+  printf "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
 log_success() {
-    printf "${COL_GREEN}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
+  printf "${COL_GREEN}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
 log_warn() {
-    printf "${COL_YELLOW}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
+  printf "${COL_YELLOW}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
 log_error() {
-    printf "${COL_RED}==>${COL_RESET}${COL_BOLD} Error: %b${COL_RESET}\r\n" "$1"
+  printf "${COL_RED}==>${COL_RESET}${COL_BOLD} Error: %b${COL_RESET}\r\n" "$1"
 }
 
 # Make sure user is not using sudo/running as root and that the user is in the

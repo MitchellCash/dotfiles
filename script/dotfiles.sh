@@ -27,7 +27,7 @@ install_dotfiles() {
 
 # Confirm with the user that proceeding to install the dotfiles can be
 # destructive.
-if [[ ${FORCE} ]]; then
+if [[ ${FORCE} -eq 1 ]]; then
     log_info "Installing dotfiles to ~"
     install_dotfiles
     log_success "dotfiles successfully installed!"
