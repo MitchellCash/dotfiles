@@ -30,7 +30,7 @@ install_brewfile() {
     rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
     # likely to fail due to Travis restrictions.
-    if [[ "${CI}" -ne 1 ]]; then
+    if [[ "${CI}" -eq 1 ]]; then
         sed -i '' '/cask*/d' ~/.Brewfile
         sed -i '' '/mas*/d' ~/.Brewfile
     fi
