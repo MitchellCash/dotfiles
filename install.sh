@@ -27,7 +27,7 @@ Options:
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
-  if [[ ! sudo -vn &> /dev/null ]]; then
+  if ! sudo -vn &> /dev/null; then
     if [[ "${BOOTSTRAP_SUDOED_ONCE}" -eq 1 ]]; then
       # Use "echo" here, instead of log_info. It's too early.
       echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Re-enter your password (for sudo access; sudo has timed out)${COL_RESET}"

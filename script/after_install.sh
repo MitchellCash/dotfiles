@@ -3,9 +3,31 @@
 # After setting up dotfiles, macOS and Homebrew complete the final
 # system configurations and ask to reboot the system.
 
+# Configure Visual Studio Code.
+if ! command -v code > /dev/null; then
+  log_warn "Visual Studio Code is not installed, skipping configuration"
+else
+  readonly EXTENSIONS="$(code --list-extensions)"
+
+  log_info "Configuring Visual Studio Code"
+
+  # Install Visual Studio Code extensions.
+  for EXTENSION in "$(cat $(dirname $0)/../vscode/vscode-extensions)"; do
+    if echo "${EXTENSIONS}" | grep -q "${EXTENSION}"; then
+      log_warn "Extension ${EXTENSION} is already installed"
+    else
+      log_info "Installing ${EXTENSION}"
+      code --install-extension "${EXTENSION}"
+    fi
+  done
+
+  # Configure Visual Studio Code settings.
+  cp "$(dirname "$0")"/../vscode/settings.json "${HOME}"/Library/Application\ Support/Code/User/settings.json
+fi
+
 # Switch to Z shell. This requires the user to input their password.
 if [[ "${CI}" -ne 1 ]]; then
-  if [ "$SHELL" != "/bin/zsh" ]; then
+  if [ "${SHELL}" != "/bin/zsh" ]; then
     log_info "Changing shell to Z shell, this requires a password"
     chsh -s /bin/zsh
   fi
@@ -23,7 +45,7 @@ if [[ "${CI}" -ne 1 ]]; then
   fi
 
   log_info "Configuring Zsh to use Spaceship prompt"
-  ln -sf "$HOME/.dotfiles/terminal-theme/spaceship-prompt/spaceship.zsh" "$HOME/.dotfiles/terminal-theme/prompt_spaceship_setup"
+  ln -sf "${HOME}/.dotfiles/terminal-theme/spaceship-prompt/spaceship.zsh" "${HOME}/.dotfiles/terminal-theme/prompt_spaceship_setup"
 fi
 
 # Use the One Dark colour theme by default in Terminal.app. We also export
@@ -40,7 +62,7 @@ if [[ "${CI}" -ne 1 ]]; then
 osascript <<EOD
 tell application "Terminal"
   set custom title of every window to "alreadyOpenedTerminalWindows"
-  do shell script "open '$HOME/.dotfiles/terminal-theme/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
+  do shell script "open '${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
   do shell script "sleep 10"
   do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'One Dark'"
   do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'One Dark'"

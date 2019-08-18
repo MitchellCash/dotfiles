@@ -26,23 +26,6 @@ install_homebrew_formulae() {
     brew bundle install --global
 }
 
-configure_brew_installed_apps() {
-    # Install VS Code extensions.
-    EXTENSIONS="$(code --list-extensions)"
-
-    grep -v '^ *#' < "$(dirname "$0")"/../vscode/vscode-extensions | while IFS= read -r EXTENSION
-    do
-        if echo "$EXTENSIONS" | grep -q "$EXTENSION"; then
-            echo "Extension '$EXTENSION' is already installed."
-        else
-            code --install-extension "$EXTENSION"
-        fi
-    done
-
-    # Configure VS Code settings.
-    cp "$(dirname "$0")"/../vscode/settings.json "$HOME"/Library/Application\ Support/Code/User/settings.json
-}
-
 install_brewfile() {
     rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
@@ -69,7 +52,6 @@ if test ! "$(command -v brew)"; then
         log_info "Installing Homebrew formulae"
         install_homebrew_formulae
         cleanup_homebrew
-        configure_brew_installed_apps
         log_success "Homebrew formulae successfully installed!"
     else
         log_info "Homebrew is required to continue with the setup of your dotfiles. Would you like to install Homebrew? [y/N]"
@@ -84,7 +66,6 @@ if test ! "$(command -v brew)"; then
             log_info "Installing Homebrew formulae"
             install_homebrew_formulae
             cleanup_homebrew
-            configure_brew_installed_apps
             log_success "Homebrew formulae successfully installed!"
         else
             log_error "Homebrew is required to proceed with the installation of your dotfiles"
@@ -99,7 +80,6 @@ else
         log_info "Installing Homebrew formulae"
         install_homebrew_formulae
         cleanup_homebrew
-        configure_brew_installed_apps
         log_success "Homebrew formulae successfully installed!"
     else
         log_info "Would you like Homebrew to also install the taps, packages and applications found in ~/.Brewfile? [y/N]"
@@ -110,7 +90,6 @@ else
             log_info "Proceeding with installing Homebrew formulae"
             install_homebrew_formulae
             cleanup_homebrew
-            configure_brew_installed_apps
             log_success "Homebrew formulae successfully installed!"
         else
             log_warn "Skipping installing Homebrew formulae. Note this may cause issues if you are missing any packages that are referred to in your dotfiles."
