@@ -87,10 +87,10 @@ which rbenv &>/dev/null && eval "$(rbenv init -)"
 # $fpath.
 fpath=( "$HOME/.dotfiles/terminal-theme" $fpath )
 
-# Load the zsh prompt themes extension and set Spaceship as the prompt theme.
-autoload -U promptinit; promptinit
-prompt spaceship
-
 # Disable symbols that require the Powerline patched font.
 SPACESHIP_DIR_LOCK_SYMBOL=""
 SPACESHIP_GIT_SYMBOL=""
+
+# Load the zsh prompt themes extension and set Spaceship as the prompt theme.
+autoload -U promptinit; promptinit
+prompt spaceship
