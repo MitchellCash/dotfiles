@@ -16,15 +16,15 @@ readonly COL_YELLOW="\033[33m"
 readonly COL_PURPLE="\033[34m"
 
 # Show help.
-if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-    echo "Usage: install.sh [OPTION]
+show_help() {
+  echo "Usage: install.sh [OPTION]
 Install configured dotfiles to the root of a macOS system.
 
 Options:
   -h, --help      Show this help message and exit.
   -f, --force     Used to force install without prompting for confirmation."
-    exit 0
-fi
+  exit 0
+}
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
@@ -63,6 +63,20 @@ log_error() {
 }
 
 main() {
+  # Parse arguments.
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --help | -h)
+      show_help
+      return
+      ;;
+      --force | -f)
+      FORCE=1
+      ;;
+    esac
+    shift
+  done
+
   # Reset sudo timestamp so we always prompt for sudo password at least once
   # rather than doing root stuff unexpectedly.
   sudo --reset-timestamp

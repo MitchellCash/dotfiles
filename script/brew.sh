@@ -63,7 +63,7 @@ install_brewfile
 # for confirmation from the user.
 log_info "Checking if Homebrew is installed."
 if test ! "$(command -v brew)"; then
-    if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+    if [[ ${FORCE} ]]; then
         log_info "Installing Homebrew"
         install_homebrew
         update_homebrew
@@ -96,7 +96,7 @@ if test ! "$(command -v brew)"; then
 else
     log_success "Homebrew is already installed!"
 
-    if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+    if [[ ${FORCE} ]]; then
         update_homebrew
         log_info "Installing Homebrew formulae"
         install_homebrew_formulae

@@ -52,13 +52,13 @@ fi
 # Final success message and ask the user if they would like to restart the
 # system. Don't reboot on Travis CI.
 if [[ ${TRAVIS_CI} != "1" ]]; then
-  if [[ "$1" != "--force" ]] && [[ "$1" != "-f" ]]; then
+  if [[ ! ${FORCE} ]]; then
     log_success "Your system has been successfully setup"
     log_info "Some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
     read -r
   fi
 
-  if [[ ${REPLY} =~ ^([yY][eE][sS]|[yY])+$ ]] || [[ "$1" = "--force" ]] || [[ "$1" = "-f" ]]; then
+  if [[ ${REPLY} =~ ^([yY][eE][sS]|[yY])+$ ]] || [[ ${FORCE} ]]; then
     log_info "Your system will reboot in 5 seconds."
     sleep 5
     sudo shutdown -r now
