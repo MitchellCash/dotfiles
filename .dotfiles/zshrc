@@ -6,7 +6,12 @@
 # instructions.
 # https://github.com/nathanbuchar/atom-one-dark-terminal#colors-not-working
 export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
+export LSCOLORS='ExFxBxDxCxegedabagacad'
+
+# 256 colour terminal. This can be removed if my pull request to Atom One Dark
+# Terminal theme gets merged
+# https://github.com/nathanbuchar/atom-one-dark-terminal/pull/23
+export TERM='xterm-256color'
 
 ###########
 # Aliases #
@@ -66,10 +71,10 @@ setopt HIST_NO_STORE
 export NVM_DIR="$HOME/.nvm"
 
 # This loads nvm.
-[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"
+[[ -s "${NVM_DIR}/nvm.sh" ]] && \. "${NVM_DIR}/nvm.sh"
 
 # This loads nvm bash_completion.
-[[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"
+[[ -s "${NVM_DIR}/bash_completion" ]] && \. "${NVM_DIR}/bash_completion"
 
 # Check for pyenv and if available run the init script. Place towards the end of
 # .zshrc because it manipulates PATH during the initialization.
@@ -85,7 +90,7 @@ which rbenv &>/dev/null && eval "$(rbenv init -)"
 
 # Add terminal-theme directory (where the Spaceship prompt theme is located) to
 # $fpath.
-fpath=( "$HOME/.dotfiles/terminal-theme" $fpath )
+fpath=( "${HOME}/.dotfiles/terminal-theme" $fpath )
 
 # Disable symbols that require the Powerline patched font.
 SPACESHIP_DIR_LOCK_SYMBOL=""
