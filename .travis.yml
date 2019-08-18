@@ -1,29 +1,25 @@
 os: osx
 stages:
-    - lint
-    - test
+  - lint
+  - test
 env:
-    global:
-        - CI=1
+  global:
+    - CI=1
 jobs:
-    include:
-        # Lint stage
-        - stage: lint
-          language: bash
-          install:
-              - brew install shellcheck
-          script:
-              - shellcheck install.sh
-              - shellcheck script/*.sh
+  include:
+    # Lint stage
+    - stage: lint
+      name: 'Lint'
+      language: bash
+      install:
+        - brew install shellcheck
+      script:
+        - shellcheck install.sh
+        - shellcheck script/*.sh
 
-        # macOS High Sierra (version 10.12)
-        - stage: test
-          osx_image: xcode9.2
-          script:
-              - ./install.sh -f
-
-        # macOS High Sierra (version 10.13)
-        - stage: test
-          osx_image: xcode10
-          script:
-              - ./install.sh -f
+    # macOS High Sierra (version 10.13)
+    - stage: test
+      name: "macOS 10.13 and Xcode 10.1"
+      osx_image: xcode10.1
+      script:
+        - ./install.sh -f
