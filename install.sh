@@ -70,8 +70,10 @@ check_sudo() {
     log_error "Run install.sh as yourself, not root"
     exit 1
   else
-    groups | grep --quiet -E "\b(admin)\b" || log_error "Add ${USER} to the admin group"
-    exit 1
+    if ! groups | grep --quiet -E "\b(admin)\b"; then
+      log_error "Add ${USER} to the admin group"
+      exit 1
+    fi
   fi
 }
 
