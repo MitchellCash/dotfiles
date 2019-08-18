@@ -86,6 +86,7 @@ main() {
       return
       ;;
       --force | -f)
+      # shellcheck disable=SC2034
       FORCE=1
       ;;
     esac
