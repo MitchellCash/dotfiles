@@ -15,7 +15,7 @@ A script to bootstrap and configure a macOS system.
 * Installs dotfiles into a user's home directory
 * Has a user friendly output with warnings when the user is about to perform a destructive action
 
-The scripts are tested and confirmed to work on both macOS `10.12` and `10.13`.
+The scripts are tested on macOS `10.13` and `10.14`.
 
 ## Usage
 
