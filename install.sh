@@ -26,10 +26,6 @@ Options:
     exit 0
 fi
 
-# Reset sudo timestamp so we always prompt for sudo password at least once
-# rather than doing root stuff unexpectedly.
-sudo --reset-timestamp
-
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
 sudo_init() {
     if ! sudo -vn &>/dev/null; then
@@ -39,7 +35,7 @@ sudo_init() {
         echo -e "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} Enter your password (for sudo access)${COL_RESET}"
       fi
       sudo /usr/bin/true
-      BOOTSTRAP_SUDOED_ONCE="1"
+      BOOTSTRAP_SUDOED_ONCE=1
     fi
 }
 
@@ -66,32 +62,40 @@ log_error() {
     exit 1
 }
 
-# Make sure not running as root user and that $USER is in the admin group.
-[ "$USER" = "root" ] && log_error "Run bootstrap.sh as yourself, not root"
-# shellcheck disable=SC2086
-groups | grep $Q admin &> /dev/null || log_error "Add $USER to the admin group"
+main() {
+  # Reset sudo timestamp so we always prompt for sudo password at least once
+  # rather than doing root stuff unexpectedly.
+  sudo --reset-timestamp
 
-# Check we are running latest version.
-log_info "Checking we are using the latest version of the script"
-git pull origin master
+  # Make sure not running as root user and that $USER is in the admin group.
+  [ "$USER" = "root" ] && log_error "Run bootstrap.sh as yourself, not root"
+  # shellcheck disable=SC2086
+  groups | grep $Q admin &> /dev/null || log_error "Add $USER to the admin group"
 
-# Install Homebrew.
-# shellcheck disable=SC1090
-source "$DOTFILESDIRREL/script/brew.sh"
+  # Check we are running latest version.
+  log_info "Checking we are using the latest version of the script"
+  git pull origin master
 
-# Install dotfiles.
-# shellcheck disable=SC1090
-source "$DOTFILESDIRREL/script/dotfiles.sh"
+  # Install Homebrew.
+  # shellcheck disable=SC1090
+  source "$DOTFILESDIRREL/script/brew.sh"
 
-# Install nvm (nvm advises not to be installed by Homebrew).
-# See: https://github.com/nvm-sh/nvm#installation-and-update
-# TODO: Put this in a better place?
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | PROFILE=~/.zshrc bash
+  # Install dotfiles.
+  # shellcheck disable=SC1090
+  source "$DOTFILESDIRREL/script/dotfiles.sh"
 
-# Install macOS defaults.
-# shellcheck disable=SC1090
-source "$DOTFILESDIRREL/script/macos.sh"
+  # Install nvm (nvm advises not to be installed by Homebrew).
+  # See: https://github.com/nvm-sh/nvm#installation-and-update
+  # TODO: Put this in a better place?
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | PROFILE=~/.zshrc bash
 
-# Final system configuration.
-# shellcheck disable=SC1090
-source "$DOTFILESDIRREL/script/after_install.sh"
+  # Install macOS defaults.
+  # shellcheck disable=SC1090
+  source "$DOTFILESDIRREL/script/macos.sh"
+
+  # Final system configuration.
+  # shellcheck disable=SC1090
+  source "$DOTFILESDIRREL/script/after_install.sh"
+}
+
+main "$@"
