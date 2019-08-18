@@ -234,20 +234,6 @@ setup_macos() {
 	# Only use UTF-8 in Terminal.app
 	defaults write com.apple.terminal StringEncodings -array 4
 
-	# Use a modified version of the Solarized Dark theme by default in Terminal.app
-osascript <<EOD
-
-tell application "Terminal"
-	set custom title of every window to "alreadyOpenedTerminalWindows"
-	do shell script "open '$HOME/.terminal-theme/Solarized Dark xterm-256color.terminal'"
-    do shell script "sleep 10"
-	do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'Solarized Dark xterm-256color'"
-	do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'Solarized Dark xterm-256color'"
-	close (every window whose name does not contain "alreadyOpenedTerminalWindows")
-end tell
-
-EOD
-
 	# TextEdit
 	# ========
 
