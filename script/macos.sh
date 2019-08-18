@@ -283,7 +283,7 @@ if [[ ${FORCE} -eq 1 ]]; then
 	setup_macos
 	log_success "macOS successfully configured!"
 else
-	log_info "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is chaning. Do you wish to proceed? [y/N]"
+	log_info "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is changing. Do you wish to proceed? [y/N]"
 	read -r
 
 	if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
