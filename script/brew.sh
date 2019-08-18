@@ -16,7 +16,7 @@ update_homebrew() {
 
     # The Travis build servers come with a lot of pre-installed Brew formulas,
     # let's not go and upgrade them all.
-    if [[ $TRAVIS_CI != "1" ]]; then
+    if [[ "${CI}" -ne 1 ]]; then
         brew upgrade
     fi
 }
@@ -50,7 +50,7 @@ install_brewfile() {
     rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
     # likely to fail due to Travis restrictions.
-    if [[ $TRAVIS_CI = "1" ]]; then
+    if [[ "${CI}" -ne 1 ]]; then
         sed -i '' '/cask*/d' ~/.Brewfile
         sed -i '' '/mas*/d' ~/.Brewfile
     fi

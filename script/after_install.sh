@@ -4,7 +4,7 @@
 # system configurations and ask to reboot the system.
 
 # Switch to Z shell. This requires the user to input their password.
-if [[ $TRAVIS_CI != "1" ]]; then
+if [[ "${CI}" -ne 1 ]]; then
   if [ "$SHELL" != "/bin/zsh" ]; then
     log_info "Changing shell to Z shell, this requires a password"
     chsh -s /bin/zsh
@@ -16,7 +16,7 @@ fi
 # 'prompt spaceship'. We do the linking because we want the filename to begin
 # with prompt_* as expected by the Zsh function 'promptinit'.
 # See: https://github.com/denysdovhan/spaceship-prompt#manual
-if [[ "${TRAVIS_CI}" != "1" ]]; then
+if [[ "${CI}" -ne 1 ]]; then
   if [[ ! -d "${HOME}/.dotfiles/terminal-theme/spaceship-prompt" ]]; then
     log_info "Cloning Spaceship Zsh prompt"
     git clone https://github.com/denysdovhan/spaceship-prompt.git "${HOME}/.dotfiles/terminal-theme/spaceship-prompt"
@@ -29,7 +29,7 @@ fi
 # Use the One Dark colour theme by default in Terminal.app. We also export
 # 'CLICOLOR' and 'LSCOLORS' inside .zshrc as per:
 #  https://github.com/nathanbuchar/atom-one-dark-terminal/blob/master/README.md
-if [[ "$TRAVIS_CI" != "1" ]]; then
+if [[ "${CI}" -ne 1 ]]; then
   if [[ ! -d "${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal" ]]; then
     log_info "Cloning Atom One Dark theme"
     git clone https://github.com/nathanbuchar/atom-one-dark-terminal.git "${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal"
@@ -51,7 +51,7 @@ fi
 
 # Final success message and ask the user if they would like to restart the
 # system. Don't reboot on Travis CI.
-if [[ ${TRAVIS_CI} != "1" ]]; then
+if [[ "${CI}" -ne 1 ]]; then
   if [[ ${FORCE} -ne 1 ]]; then
     log_success "Your system has been successfully setup"
     log_info "Some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"

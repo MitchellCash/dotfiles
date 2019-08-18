@@ -4,7 +4,7 @@ stages:
     - test
 env:
     global:
-        - TRAVIS_CI=1
+        - CI=1
 jobs:
     include:
         # Lint stage
