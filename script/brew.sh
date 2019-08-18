@@ -91,6 +91,7 @@ if test ! "$(command -v brew)"; then
             log_success "Homebrew formulae successfully installed!"
         else
             log_error "Homebrew is required to proceed with the installation of your dotfiles"
+            exit 1
         fi
     fi
 else

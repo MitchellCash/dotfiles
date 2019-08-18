@@ -21,9 +21,8 @@ show_help() {
 Install configured dotfiles to the root of a macOS system.
 
 Options:
-  -h, --help      Show this help message and exit.
-  -f, --force     Used to force install without prompting for confirmation."
-  exit 0
+  -h, --help     Show this help message and exit.
+  -f, --force    Used to force install without prompting for confirmation."
 }
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
@@ -59,7 +58,18 @@ log_warn() {
 
 log_error() {
     printf "${COL_RED}==>${COL_RESET}${COL_BOLD} Error: %b${COL_RESET}\r\n" "$1"
+}
+
+# Make sure user is not using sudo/running as root and that the user is in the
+# admin group.
+check_sudo() {
+  if [[ "${USER}" = "root" ]]; then
+    log_error "Run install.sh as yourself, not root"
     exit 1
+  else
+    groups | grep --quiet -E "\b(admin)\b" || log_error "Add ${USER} to the admin group"
+    exit 1
+  fi
 }
 
 main() {
@@ -81,10 +91,7 @@ main() {
   # rather than doing root stuff unexpectedly.
   sudo --reset-timestamp
 
-  # Make sure not running as root user and that $USER is in the admin group.
-  [ "$USER" = "root" ] && log_error "Run bootstrap.sh as yourself, not root"
-  # shellcheck disable=SC2086
-  groups | grep $Q admin &> /dev/null || log_error "Add $USER to the admin group"
+  check_sudo
 
   # Check we are running latest version.
   log_info "Checking we are using the latest version of the script"
