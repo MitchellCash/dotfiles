@@ -4,7 +4,7 @@
 
 log_info "Preparing to setup macOS"
 
-function setup_macos() {
+setup_macos() {
 
 	# Close any open System Preferences panes, to prevent them from overriding
 	# settings we’re about to change

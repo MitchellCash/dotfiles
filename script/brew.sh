@@ -7,11 +7,11 @@ log_info "Setting up Homebrew"
 # Save Homebrew’s installed location.
 BREW_PREFIX=$(brew --prefix)
 
-function install_homebrew() {
+install_homebrew() {
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 
-function update_homebrew() {
+update_homebrew() {
     brew update
 
     # The Travis build servers come with a lot of pre-installed Brew formulas,
@@ -21,15 +21,15 @@ function update_homebrew() {
     fi
 }
 
-function cleanup_homebrew() {
+cleanup_homebrew() {
     brew cleanup
 }
 
-function install_homebrew_formulae() {
+install_homebrew_formulae() {
     brew bundle install --global
 }
 
-function configure_brew_installed_apps() {
+configure_brew_installed_apps() {
     # Install VS Code extensions.
     EXTENSIONS="$(code --list-extensions)"
 
@@ -46,7 +46,7 @@ function configure_brew_installed_apps() {
     cp "$(dirname "$0")"/../vscode/settings.json "$HOME"/Library/Application\ Support/Code/User/settings.json
 }
 
-function install_brewfile() {
+install_brewfile() {
     rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
     # Remove installation of cask and mas applications on Travis as they are
     # likely to fail due to Travis restrictions.

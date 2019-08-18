@@ -9,7 +9,7 @@ log_info "Setting up dotfiles"
 # rename the files to prepend the "." (dot) when they are synced to ~. The
 # reason I don't store them in the git repo with the dot is so that it is easier
 # to manage repo specific dotfiles like .gitignore etc.
-function install_dotfiles() {
+install_dotfiles() {
     cd .dotfiles || exit
     for file in {zprofile,zshrc,gitconfig,gitignore,hushlogin}; do
         if [ -r "$file" ] && [ -f "$file" ]; then

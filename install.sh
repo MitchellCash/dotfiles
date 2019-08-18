@@ -44,7 +44,7 @@ sudo_init() {
 }
 
 # Colourful terminal log outputs.
-function log_info() {
+log_info() {
     # Everytime we log an output also check if sudo is initialised. It is doubtful
     # that a password will need to be entered more than once as the script
     # shouldn't take long to run. But in the event it does at least it will be at
@@ -53,15 +53,15 @@ function log_info() {
     printf "${COL_PURPLE}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
-function log_success() {
+log_success() {
     printf "${COL_GREEN}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
-function log_warn() {
+log_warn() {
     printf "${COL_YELLOW}==>${COL_RESET}${COL_BOLD} %b${COL_RESET}\r\n" "$1"
 }
 
-function log_error() {
+log_error() {
     printf "${COL_RED}==>${COL_RESET}${COL_BOLD} Error: %b${COL_RESET}\r\n" "$1"
     exit 1
 }
