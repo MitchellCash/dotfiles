@@ -8,11 +8,6 @@
 export CLICOLOR=1
 export LSCOLORS='ExFxBxDxCxegedabagacad'
 
-# 256 colour terminal. This can be removed if my pull request to Atom One Dark
-# Terminal theme gets merged
-# https://github.com/nathanbuchar/atom-one-dark-terminal/pull/23
-export TERM='xterm-256color'
-
 ###########
 # Aliases #
 ###########
