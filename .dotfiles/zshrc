@@ -87,6 +87,28 @@ which rbenv &>/dev/null && eval "$(rbenv init -)"
 # $fpath.
 fpath=( "${HOME}/.dotfiles/terminal-theme" $fpath )
 
+# Only show the following prompt sections
+SPACESHIP_PROMPT_ORDER=(
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  git           # Git section (git_branch + git_status)
+  line_sep      # Line break
+  vi_mode       # Vi-mode indicator
+  jobs          # Background jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
+
+# Make '$' the prompt character shown before command input
+SPACESHIP_CHAR_SYMBOL="$ "
+
+# Always show the username, not just when it's different from $LOGNAME
+SPACESHIP_USER_SHOW="always"
+
+# Don't truncate folders in prompt
+SPACESHIP_DIR_TRUNC=0
+
 # Disable symbols that require the Powerline patched font.
 SPACESHIP_DIR_LOCK_SYMBOL=""
 SPACESHIP_GIT_SYMBOL=""
