@@ -55,14 +55,6 @@ setup_macos() {
 	# Remove the spring loading delay for directories
 	defaults write NSGlobalDomain com.apple.springing.delay -float 0
 
-	# Dashboard
-	# =========
-
-	log_info "Setting Dashboard preferences"
-
-	# Disable Dashboard
-	defaults write com.apple.dashboard mcx-disabled -bool true
-
 	# Dock
 	# ====
 
@@ -104,9 +96,6 @@ setup_macos() {
 	# Don’t group windows by application in Mission Control
 	# (i.e. use the old Exposé behavior instead)
 	defaults write com.apple.dock expose-group-by-app -bool false
-
-	# Don’t show Dashboard as a Space
-	defaults write com.apple.dock dashboard-in-overlay -bool true
 
 	# Don’t automatically rearrange Spaces based on most recent use
 	defaults write com.apple.dock mru-spaces -bool false
