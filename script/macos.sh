@@ -49,12 +49,6 @@ setup_macos() {
 	# Disable automatic capitalization as it’s annoying when typing code
 	defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 
-	# Enable spring loading for directories
-	defaults write NSGlobalDomain com.apple.springing.enabled -bool true
-
-	# Remove the spring loading delay for directories
-	defaults write NSGlobalDomain com.apple.springing.delay -float 0
-
 	# Dock
 	# ====
 
