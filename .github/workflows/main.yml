@@ -1,0 +1,25 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run ShellCheck
+        run: shellcheck install.sh script/*.sh
+
+  test:
+    env:
+      CI: 1
+
+    name: macOS 10.15.1
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run Test
+        run: ./install.sh -f
