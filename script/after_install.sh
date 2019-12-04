@@ -3,62 +3,65 @@
 # After setting up dotfiles, macOS and Homebrew complete the final
 # system configurations and ask to reboot the system.
 
+log_info "== FINAL CONFIGURATIONS =="
+
 # Configure Visual Studio Code.
-if ! command -v code > /dev/null; then
-  log_warn "Visual Studio Code is not installed, skipping configuration"
-else
-  readonly EXTENSIONS="$(code --list-extensions)"
+configure_vscode() {
+  if ! command -v code > /dev/null; then
+    log_warn "Visual Studio Code is not installed, skipping configuration"
+  else
+    readonly EXTENSIONS="$(code --list-extensions)"
 
-  log_info "Configuring Visual Studio Code"
+    log_info "Configuring Visual Studio Code..."
 
-  # Install Visual Studio Code extensions.
-  while IFS= read -r EXTENSION; do
-    if echo "${EXTENSIONS}" | grep -q "${EXTENSION}"; then
-      log_warn "Extension ${EXTENSION} is already installed"
-    else
-      log_info "Installing ${EXTENSION}"
-      code --install-extension "${EXTENSION}"
-    fi
-  done < "${DOTFILESDIRREL}"/vscode/vscode-extensions
+    # Install Visual Studio Code extensions.
+    while IFS= read -r EXTENSION; do
+      if echo "${EXTENSIONS}" | grep -q "${EXTENSION}"; then
+        log_warn "Visual Studio Code extension ${EXTENSION} is already installed!"
+      else
+        log_info "Installing Visual Studio Code extension ${EXTENSION}.."
+        code --install-extension "${EXTENSION}"
+      fi
+    done < "${DOTFILESDIRREL}"/vscode/vscode-extensions
 
-  # Configure Visual Studio Code settings.
-  cp "${DOTFILESDIRREL}"/vscode/settings.json "${HOME}"/Library/Application\ Support/Code/User/settings.json
+    # Configure Visual Studio Code settings.
+    cp "${DOTFILESDIRREL}"/vscode/settings.json "${HOME}"/Library/Application\ Support/Code/User/settings.json
+
+    log_success "Visual Studio Code successfully configured!"
 fi
-
-# Switch to Z shell. This requires the user to input their password.
-if [[ "${CI}" -ne 1 ]]; then
-  if [ "${SHELL}" != "/bin/zsh" ]; then
-    log_info "Changing shell to Z shell, this requires a password"
-    chsh -s /bin/zsh
-  fi
-fi
+}
 
 # Link 'spaceship.zsh' to 'prompt_spaceship_setup' and inside .zshrc we add the
 # .dotfiles/terminal-theme dir to $fpath so we can use the theme with
 # 'prompt spaceship'. We do the linking because we want the filename to begin
 # with prompt_* as expected by the Zsh function 'promptinit'.
 # See: https://github.com/denysdovhan/spaceship-prompt#manual
-if [[ "${CI}" -ne 1 ]]; then
-  if [[ ! -d "${HOME}/.dotfiles/terminal-theme/spaceship-prompt" ]]; then
-    log_info "Cloning Spaceship Zsh prompt"
-    git clone https://github.com/denysdovhan/spaceship-prompt.git "${HOME}/.dotfiles/terminal-theme/spaceship-prompt"
-  fi
+setup_spaceship_prompt() {
+  if [[ "${CI}" -ne 1 ]]; then
+    log_info "Installing Spaceship Zsh prompt theme..."
 
-  log_info "Configuring Zsh to use Spaceship prompt"
-  ln -sf "${HOME}/.dotfiles/terminal-theme/spaceship-prompt/spaceship.zsh" "${HOME}/.dotfiles/terminal-theme/prompt_spaceship_setup"
-fi
+    if [[ ! -d "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt" ]]; then
+      git clone --quiet https://github.com/denysdovhan/spaceship-prompt.git "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt"
+    fi
+
+    ln -sf "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt/spaceship.zsh" "${HOME}/.terminal/zsh-prompt-themes/prompt_spaceship_setup"
+
+    log_success "Spaceship prompt theme successfully installed!"
+  fi
+}
 
 # Use the One Dark colour theme by default in Terminal.app. We also export
 # 'CLICOLOR' and 'LSCOLORS' inside .zshrc as per:
 #  https://github.com/nathanbuchar/atom-one-dark-terminal/blob/master/README.md
-if [[ "${CI}" -ne 1 ]]; then
-  if [[ ! -d "${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal" ]]; then
-    log_info "Cloning Atom One Dark theme"
-    git clone https://github.com/nathanbuchar/atom-one-dark-terminal.git "${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal"
-  fi
+setup_one_dark_terminal() {
+  if [[ "${CI}" -ne 1 ]]; then
+    log_info "Installing One Dark Terminal theme..."
+    log_info "While this installs additional Terminal windows will open and close"
 
-  log_info "Configuring terminal to use Atom One Dark colour theme"
-  log_info "While this configures additional Terminal windows will open and close"
+    if [[ ! -d "${HOME}/.terminal/terminal-themes/atom-one-dark-terminal" ]]; then
+      git clone --quiet https://github.com/nathanbuchar/atom-one-dark-terminal.git "${HOME}/.terminal/terminal-themes/atom-one-dark-terminal"
+    fi
+
 osascript <<EOD
 tell application "Terminal"
   set custom title of every window to "alreadyOpenedTerminalWindows"
@@ -69,23 +72,42 @@ tell application "Terminal"
   close (every window whose name does not contain "alreadyOpenedTerminalWindows")
 end tell
 EOD
-fi
+
+  log_success "One Dark Terminal theme successfully installed!"
+  fi
+}
+
+# Switch to Z shell. This requires the user to input their password.
+chsh_zsh() {
+  if [[ "${CI}" -ne 1 ]]; then
+    if [ "${SHELL}" != "/bin/zsh" ]; then
+      log_info "Changing shell to Z shell, this requires a password..."
+      chsh -s /bin/zsh
+      log_success "Shell successfully changed!"
+    fi
+  fi
+}
+
+log_info "Running final configurations..."
+configure_vscode
+setup_spaceship_prompt
+setup_one_dark_terminal
+chsh_zsh
+log_success "Your system has now been successfully setup!"
 
 # Final success message and ask the user if they would like to restart the
 # system. Don't reboot on Travis CI.
 if [[ "${CI}" -ne 1 ]]; then
   if [[ ${FORCE} -ne 1 ]]; then
-    log_success "Your system has been successfully setup"
-    log_info "Some changes will require a reboot to take effect. Would you like to reboot now? [y/N]"
+    log_info "Some changes may require a reboot to take effect. Would you like to reboot now? [y/N]"
     read -r
   fi
 
   if [[ ${REPLY} =~ ^([yY][eE][sS]|[yY])+$ ]] || [[ ${FORCE} -eq 1 ]]; then
-    log_info "Your system will reboot in 5 seconds."
+    log_info "Your system will reboot in 5 seconds..."
     sleep 5
     sudo shutdown -r now
   else
-    log_info "Skipping system reboot"
-    log_warn "Although most things will function without issue, there could be certain undesired effects until the next time you reboot"
+    log_warn "Skipping system reboot! Although most things will function without issue, there could be certain undesired effects until the next time you reboot"
   fi
 fi

@@ -85,7 +85,7 @@ which rbenv &>/dev/null && eval "$(rbenv init -)"
 
 # Add terminal-theme directory (where the Spaceship prompt theme is located) to
 # $fpath.
-fpath=( "${HOME}/.dotfiles/terminal-theme" $fpath )
+fpath=($fpath "${HOME}/.terminal/zsh-prompt-themes")
 
 # Only show the following prompt sections
 SPACESHIP_PROMPT_ORDER=(
