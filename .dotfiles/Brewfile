@@ -11,16 +11,11 @@ tap "homebrew/core"
 # Install mas - a command line interface for installing Mac App Store apps.
 brew "mas"
 
-# Install GNU File, Shell, and Text utilities.
-# I then use bash aliases to use the GNU utilities rather than the BSD variants.
-brew "coreutils"
-
 # Useful packages.
 brew "git"
 brew "nvm"
 brew "pyenv"
 brew "rbenv"
-brew "shellcheck"
 brew "wget"
 
 # Bitcoin/altcoin development.
@@ -37,9 +32,6 @@ brew "pkg-config"
 brew "protobuf"
 brew "qrencode"
 brew "qt"
-
-# Web Development.
-brew "node@10"
 
 # Install macOS applications distributed as binaries.
 cask "cleanmymac"
@@ -65,6 +57,7 @@ cask "tor-browser"
 cask "virtualbox"
 cask "visual-studio-code"
 cask "vlc"
+cask "wasabi-wallet"
 
 # Install applications from the Mac App Store.
 mas "1Password 7", id: 1333542190
