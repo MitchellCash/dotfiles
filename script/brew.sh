@@ -6,7 +6,7 @@ log_info "== HOMEBREW =="
 
 setup_brewfile() {
   log_info "Syncing Brewfile to root..."
-  rsync -avh --no-perms .dotfiles/Brewfile ~/.Brewfile
+  rsync -avh --no-perms --quiet dotfiles/Brewfile ~/.Brewfile
 
   # Remove installation of cask and mas applications on Travis as they are
   # likely to fail due to Travis restrictions.
