@@ -111,11 +111,6 @@ main() {
   # shellcheck disable=SC1090
   source "$DOTFILESDIRREL/script/dotfiles.sh"
 
-  # Install nvm (nvm advises not to be installed by Homebrew).
-  # See: https://github.com/nvm-sh/nvm#installation-and-update
-  # TODO: Put this in a better place?
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | PROFILE=~/.zshrc bash
-
   # Install macOS defaults.
   # shellcheck disable=SC1090
   source "$DOTFILESDIRREL/script/macos.sh"
