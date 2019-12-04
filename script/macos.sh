@@ -100,15 +100,6 @@ setup_macos() {
     '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Sourcetree.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
     '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Visual Studio Code.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 
-  # Mission Control
-  # ===============
-
-  # Don’t automatically rearrange Spaces based on most recent use
-  defaults write com.apple.dock mru-spaces -bool false
-
-  # Group windows by application in Mission Control
-  defaults write com.apple.dock expose-group-by-app -bool true
-
   # Finder
   # ======
 
@@ -166,6 +157,25 @@ setup_macos() {
     General -bool true \
     OpenWith -bool true \
     Privileges -bool true
+
+  # Keyboard
+  # ========
+
+  # Touch bar shows an expanded control strip.
+  defaults write com.apple.touchbar.agent PresentationModeGlobal -string "fullControlStrip"
+
+  # Press Fn key to show F1, F2, etc. keys on the touch bar
+  defaults write com.apple.touchbar.agent PresentationModeFnModes -dict \
+    fullControlStrip -string "functionKeys"
+
+  # Mission Control
+  # ===============
+
+  # Don’t automatically rearrange Spaces based on most recent use
+  defaults write com.apple.dock mru-spaces -bool false
+
+  # Group windows by application in Mission Control
+  defaults write com.apple.dock expose-group-by-app -bool true
 
   # Siri
   # ====
