@@ -2,7 +2,7 @@
 #
 # Install dotfiles to home directory.
 
-log_info "Setting up dotfiles"
+log_info "== DOTFILES =="
 
 # Function to install the dotfiles to ~ only when changes are detected. Brewfile
 # is already installed in brew.sh so we won't install it again here. I also

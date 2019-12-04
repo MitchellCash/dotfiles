@@ -2,264 +2,228 @@
 #
 # macOS configurations and defaults.
 
-log_info "Preparing to setup macOS"
+log_info "== MACOS =="
 
 setup_macos() {
+  log_info "Configuring macOS..."
 
-	# Close any open System Preferences panes, to prevent them from overriding
-	# settings we’re about to change
-	log_info "Quitting System Preferences app"
-	osascript -e 'tell application "System Preferences" to quit'
+  # Close any open System Preferences panes, to prevent them from overriding
+  # settings we’re about to change
+  log_info "Quitting System Preferences app"
+  osascript -e 'tell application "System Preferences" to quit'
 
-	###########################################################################
-	# Preferences                                                             #
-	###########################################################################
+  ###########################################################################
+  # Preferences                                                             #
+  ###########################################################################
 
-	# Global
-	# ======
+  # General
+  # ======
 
-	log_info "Setting Global preferences"
+  log_info "Setting General preferences"
 
-	# Always show scroll bars
-	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+  # Always show scroll bars
+  defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 
-	# Use LCD font smoothing when available
-	defaults write NSGlobalDomain AppleFontSmoothing -int 1
+  # Use LCD font smoothing when available
+  defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
-	# Expand save panel by default
-	defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-	defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+  # Expand save panel by default
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+  defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
-	# Expand print panel by default
-	defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-	defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+  # Expand print panel by default
+  defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+  defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-	# Save to disk (not to iCloud) by default
-	defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+  # Save to disk (not to iCloud) by default
+  defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
-	# Show all filename extensions.
-	defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  # Set sidebar icon size to medium
+  defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
-	# Set sidebar icon size to medium
-	defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
+  # Disable automatic capitalization as it’s annoying when typing code
+  defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
 
-	# Disable the over-the-top focus ring animation
-	defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
+  # Dock
+  # ====
 
-	# Disable automatic capitalization as it’s annoying when typing code
-	defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+  log_info "Setting Dock preferences"
 
-	# Dock
-	# ====
+  # Set the icon size of Dock items to 36 pixels
+  # defaults write com.apple.dock tilesize -int 36
 
-	log_info "Setting Dock preferences"
+  # Dock position on screen
+  defaults write com.apple.dock orientation -string "bottom"
 
-	# Minimise windows using scale effect
-	defaults write com.apple.dock mineffect -string "scale"
+  # Minimise windows using scale effect
+  defaults write com.apple.dock mineffect -string "scale"
 
-	# Minimise windows into application icon
-	defaults write com.apple.dock minimize-to-application -bool true
+  # Minimise windows into application icon
+  defaults write com.apple.dock minimize-to-application -bool true
 
-	# Don’t animate opening applications
-	defaults write com.apple.dock launchanim -bool false
+  # Don’t animate opening applications
+  defaults write com.apple.dock launchanim -bool false
 
-	# Automatically hide and show the Dock
-	defaults write com.apple.dock autohide -bool true
+  # Automatically hide and show the Dock
+  defaults write com.apple.dock autohide -bool true
 
-	# Remove the autohide Dock delay
-	defaults write com.apple.dock autohide-delay -float 0
+  # Remove the autohide Dock delay
+  # defaults write com.apple.dock autohide-delay -float 0
 
-	# Remove the animation when hiding/showing the Dock
-	defaults write com.apple.dock autohide-time-modifier -float 0
+  # Show indicators for open applications in the Dock
+  defaults write com.apple.dock show-process-indicators -bool true
 
-	# Enable highlight hover effect for the grid view of a stack in the Dock
-	defaults write com.apple.dock mouse-over-hilite-stack -bool true
+  # Don't show recent apps in the Dock
+  defaults write com.apple.dock show-recents -bool false
 
-	# Set the icon size of Dock items to 36 pixels
-	defaults write com.apple.dock tilesize -int 36
+  # Remove the animation when hiding/showing the Dock
+  # defaults write com.apple.dock autohide-time-modifier -float 0
 
-	# Enable spring loading for all Dock items
-	defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+  # Enable highlight hover effect for the grid view of a stack in the Dock
+  defaults write com.apple.dock mouse-over-hilite-stack -bool true
 
-	# Show indicator lights for open applications in the Dock
-	defaults write com.apple.dock show-process-indicators -bool true
+  # Setup apps in the Dock
+  defaults write com.apple.dock persistent-apps -array \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Launchpad.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/App Store.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/System Preferences.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Utilities/Terminal.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-type</key><string>spacer-tile</string></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Firefox.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/TorBrowser.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-type</key><string>spacer-tile</string></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/GIMP-2.10.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Reeder.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Spark.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Spotify.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Sourcetree.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
+    '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Visual Studio Code.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 
-	# Speed up Mission Control animations
-	defaults write com.apple.dock expose-animation-duration -float 0.1
+  # Mission Control
+  # ===============
 
-	# Don’t group windows by application in Mission Control
-	# (i.e. use the old Exposé behavior instead)
-	defaults write com.apple.dock expose-group-by-app -bool false
+  # Don’t automatically rearrange Spaces based on most recent use
+  defaults write com.apple.dock mru-spaces -bool false
 
-	# Don’t automatically rearrange Spaces based on most recent use
-	defaults write com.apple.dock mru-spaces -bool false
+  # Group windows by application in Mission Control
+  defaults write com.apple.dock expose-group-by-app -bool true
 
-	# Don't show recent apps in the Dock
-	defaults write com.apple.dock show-recents -bool false
+  # Finder
+  # ======
 
-	# Setup apps in the Dock
-	defaults write com.apple.dock persistent-apps -array \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Launchpad.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/App Store.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/System Preferences.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Utilities/Terminal.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-type</key><string>spacer-tile</string></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Firefox.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/TorBrowser.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-type</key><string>spacer-tile</string></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/GIMP-2.10.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Reeder.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Spark.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Spotify.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Sourcetree.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>' \
-		'<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Visual Studio Code.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+  log_info "Setting Finder preferences"
 
-	# Finder
-	# ======
+  # Hide hard disks, external disks, connected servers, CDs, DVDs, and iPods on the desktop.
+  defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+  defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+  defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+  defaults write com.apple.finder ShowMountedServersOnDesktop-bool false
 
-	log_info "Setting Finder preferences"
+  # New Finder windows show $HOME.
+  defaults write com.apple.finder NewWindowTarget -string "PfHm"
+  defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
 
-	# Hide hard disks, external disks, connected servers, CDs, DVDs, and iPods on the desktop.
-	defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
-	defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
-	defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
-	defaults write com.apple.finder ShowMountedServersOnDesktop-bool false
+  # Open folders in windows instead of new tabs.
+  defaults write com.apple.finder FinderSpawnTab -bool false
 
-	# New Finder windows show $HOME.
-	defaults write com.apple.finder NewWindowTarget -string "PfHm"
-	defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+  # Hide Recent Tags from sidebar.
+  defaults write com.apple.finder ShowRecentTags -bool false
 
-	# Open folders in windows instead of new tabs.
-	defaults write com.apple.finder FinderSpawnTab -bool false
+  # Show all filename extensions.
+  defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-	# Hide Recent Tags from sidebar.
-	defaults write com.apple.finder ShowRecentTags -bool false
+  # Disable the warning when changing a file extension
+  defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-	# Keep folders on top when sorting by name.
-	defaults write com.apple.finder _FXSortFoldersFirst -bool true
+  # Keep folders on top when sorting by name.
+  defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
-	# When performing a search, search the current folder by default.
-	defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+  # When performing a search, search the current folder by default.
+  defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
-	# Show hidden and system files.
-	defaults write com.apple.finder AppleShowAllFiles -bool true
+  # Show hidden and system files.
+  defaults write com.apple.finder AppleShowAllFiles -bool true
 
-	# Use list view in all Finder windows by default.
-	defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+  # Use list view in all Finder windows by default.
+  defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-	# Finder: disable window animations and Get Info animations
-	defaults write com.apple.finder DisableAllAnimations -bool true
+  # Finder: disable window animations and Get Info animations
+  defaults write com.apple.finder DisableAllAnimations -bool true
 
-	# Finder: show status bar
-	defaults write com.apple.finder ShowStatusBar -bool true
+  # Finder: show status bar
+  defaults write com.apple.finder ShowStatusBar -bool true
 
-	# Finder: show path bar
-	defaults write com.apple.finder ShowPathbar -bool true
+  # Finder: show path bar
+  defaults write com.apple.finder ShowPathbar -bool true
 
-	# Display full POSIX path as Finder window title
-	defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+  # Display full POSIX path as Finder window title
+  defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-	# Disable the warning when changing a file extension
-	defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  # Expand the following File Info panes:
+  # “General”, “Open with”, and “Sharing & Permissions”
+  defaults write com.apple.finder FXInfoPanesExpanded -dict \
+    General -bool true \
+    OpenWith -bool true \
+    Privileges -bool true
 
-	# Expand the following File Info panes:
-	# “General”, “Open with”, and “Sharing & Permissions”
-	defaults write com.apple.finder FXInfoPanesExpanded -dict \
-		General -bool true \
-		OpenWith -bool true \
-		Privileges -bool true
+  # Siri
+  # ====
 
-    # iTunes
-	# ======
+  log_info "Setting Siri preferences"
 
-	log_info "Setting iTunes preferences"
+  # Hide Siri in menu bar.
+  defaults write com.apple.Siri StatusMenuVisible -bool false
 
-	# Don't open iTunes when a device is plugged in
-	defaults write com.apple.iTunes dontAutomaticallySyncIPods -bool true
+  # Terminal
+  # ========
 
-	# Screen Capture
-	# ==============
+  log_info "Setting Terminal preferences"
 
-	log_info "Setting Screen Capture preferences"
+  # Enable Secure Keyboard Entry in Terminal.app.
+  defaults write com.apple.Terminal SecureKeyboardEntry -bool true
 
-	# Disable shadow in screenshots
-	defaults write com.apple.screencapture disable-shadow -bool true
+  # Disable the line marks.
+  defaults write com.apple.Terminal ShowLineMarks -bool false
 
-	# Screensaver
-	# ===========
+  # TextEdit
+  # ========
 
-	log_info "Setting Screensaver preferences"
+  log_info "Setting TextEdit preferences"
 
-	# Require password immediately after sleep or screen saver begins
-	defaults write com.apple.screensaver askForPassword -int 1
-	defaults write com.apple.screensaver askForPasswordDelay -int 0
+  # Use plain text mode for new TextEdit documents
+  defaults write com.apple.TextEdit RichText -int 0
 
-	# Siri
-	# ====
+  # Open and save files as UTF-8 in TextEdit
+  defaults write com.apple.TextEdit PlainTextEncoding -int 4
+  defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
-	log_info "Setting Siri preferences"
+  ###########################################################################
+  # Kill affected applications                                              #
+  ###########################################################################
 
-	# Hide Siri in menu bar.
-	defaults write com.apple.Siri StatusMenuVisible -bool false
+  # Kill a limited set of apps to put the defaults set above in place for
+  # those apps. Obviously apps like the Terminal can't be killed yet as the
+  # install.sh script will still be running and will instead require a restart
+  # later on.
+  for app in "cfprefsd" \
+    "Dock" \
+    "Finder" \
+    "SystemUIServer"; do
+    killall "${app}" &>/dev/null
+  done
 
-	# Terminal
-	# ========
-
-	log_info "Setting Terminal preferences"
-
-	# Enable Secure Keyboard Entry in Terminal.app.
-	defaults write com.apple.Terminal SecureKeyboardEntry -bool true
-
-	# Disable the line marks.
-	defaults write com.apple.Terminal ShowLineMarks -bool false
-
-	# Only use UTF-8 in Terminal.app
-	defaults write com.apple.terminal StringEncodings -array 4
-
-	# TextEdit
-	# ========
-
-	log_info "Setting TextEdit preferences"
-
-	# Use plain text mode for new TextEdit documents
-	defaults write com.apple.TextEdit RichText -int 0
-
-	# Open and save files as UTF-8 in TextEdit
-	defaults write com.apple.TextEdit PlainTextEncoding -int 4
-	defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
-
-	###########################################################################
-	# Kill affected applications                                              #
-	###########################################################################
-
-    # Kill a limited set of apps to put the defaults set above in place for
-	# those apps. Obviously apps like the Terminal can't be killed yet as the
-	# install.sh script will still be running and will instead require a restart
-	# later on.
-	for app in "cfprefsd" \
-		"Dock" \
-		"Finder" \
-		"SystemUIServer"; do
-		killall "${app}" &>/dev/null
-	done
-
+  log_success "macOS successfully configured!"
 }
 
 # Confirm with the user that proceeding to install may have undesired affects
-if [[ ${FORCE} -eq 1 ]]; then
-	log_info "Configuring macOS"
-	setup_macos
-	log_success "macOS successfully configured!"
-else
-	log_info "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is changing. Do you wish to proceed? [y/N]"
-	read -r
+if [[ ${FORCE} -ne 1 ]]; then
+  log_info "Using this script to configure macOS can have undesired affects if you have not confirmed the defaults it is changing. Do you wish to proceed? [y/N]"
+  read -r
+fi
 
-	if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-		log_info "Proceeding with configuring macOS"
-		setup_macos
-		log_success "macOS successfully configured!"
-	else
-		log_warn "Skipping configuring macOS"
-	fi
+if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ || ${FORCE} -eq 1 ]]; then
+  setup_macos
+else
+  log_warn "Skipping configuring macOS!"
 fi
