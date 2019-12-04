@@ -1,18 +1,18 @@
 [core]
-	# Exclude everything this file. Used for general exclusions.
-	excludesfile = ~/.gitignore
+  # Exclude everything this file. Used for general exclusions.
+  excludesfile = ~/.gitignore
 [color]
-    # Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+  ui = auto
 [commit]
-	# GPG sign all commits.
-	gpgsign = true
+  # GPG sign all commits.
+  gpgsign = true
 [help]
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+  # Automatically correct and execute mistyped commands
+  autocorrect = 1
 [user]
-    # Name used in commit messages.
-    name = Mitchell Cash
-	# Email used in commit messages.
-    email = mitchell@mitchellcash.com
+  # Name used in commit messages.
+  name = Mitchell Cash
+  # Email used in commit messages.
+  email = mitchell@mitchellcash.com
