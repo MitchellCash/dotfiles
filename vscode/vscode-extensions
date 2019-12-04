@@ -1,8 +1,8 @@
-ban.spellright
 DavidAnson.vscode-markdownlint
 EditorConfig.EditorConfig
+formulahendry.code-runner
 ms-python.python
 ms-vscode.cpptools
 octref.vetur
-VisualStudioExptTeam.vscodeintellicode
-zhuangtongfa.Material-theme
+streetsidesoftware.code-spell-checker
+zhuangtongfa.material-theme
