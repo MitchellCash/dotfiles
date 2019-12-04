@@ -56,8 +56,10 @@ homebrew_install_formulae() {
 log_info "Checking if Homebrew is installed..."
 if test ! "$(command -v brew)"; then
 
-  log_info "Homebrew is not installed. Would you like to install Homebrew and all formulae in the Brewfile? [y/N]"
-  read -r
+  if [[ ${FORCE} -ne 1 ]]; then
+    log_info "Homebrew is not installed. Would you like to install Homebrew and all formulae in the Brewfile? [y/N]"
+    read -r
+  fi
 
   if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ || ${FORCE} -eq 1 ]]; then
     setup_brewfile
@@ -72,8 +74,10 @@ if test ! "$(command -v brew)"; then
 else
   log_success "Homebrew is already installed!"
 
-  log_info "Would you like Homebrew to also install the formulae found in the Brewfile? [y/N]"
-  read -r
+  if [[ ${FORCE} -ne 1 ]]; then
+    log_info "Would you like Homebrew to also install the formulae found in the Brewfile? [y/N]"
+    read -r
+  fi
 
   if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ || ${FORCE} -eq 1 ]]; then
     setup_brewfile
