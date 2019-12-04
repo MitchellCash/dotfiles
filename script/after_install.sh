@@ -32,7 +32,7 @@ fi
 }
 
 # Link 'spaceship.zsh' to 'prompt_spaceship_setup' and inside .zshrc we add the
-# .dotfiles/terminal-theme dir to $fpath so we can use the theme with
+# .terminal/zsh-prompt-themes dir to $fpath so we can use the theme with
 # 'prompt spaceship'. We do the linking because we want the filename to begin
 # with prompt_* as expected by the Zsh function 'promptinit'.
 # See: https://github.com/denysdovhan/spaceship-prompt#manual
@@ -65,7 +65,7 @@ setup_one_dark_terminal() {
 osascript <<EOD
 tell application "Terminal"
   set custom title of every window to "alreadyOpenedTerminalWindows"
-  do shell script "open '${HOME}/.dotfiles/terminal-theme/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
+  do shell script "open '${HOME}/.terminal/terminal-themes/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
   do shell script "sleep 10"
   do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'One Dark'"
   do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'One Dark'"
