@@ -19,7 +19,7 @@ The scripts are tested on macOS `10.13` and `10.14`.
 
 ## Usage
 
-Customise the `user.name` and `user.email` in [`gitconfig`](https://github.com/MitchellCash/dotfiles/blob/master/.dotfiles/gitconfig).
+Customise the `user.name` and `user.email` in [`gitconfig`](https://github.com/MitchellCash/dotfiles/blob/master/dotfiles/gitconfig).
 
 Run [`install.sh`](https://github.com/MitchellCash/dotfiles/blob/master/install.sh).
 
