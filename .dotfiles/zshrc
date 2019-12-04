@@ -18,6 +18,9 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+# Colourised `ls` output.
+alias ls='ls -G'
+
 ###########
 # Options #
 ###########
@@ -53,6 +56,8 @@ setopt SHARE_HISTORY
 # nvm, pyenv & rbenv #
 ######################
 
+## nvm ##
+
 # Set nvm directory location.
 export NVM_DIR="$HOME/.nvm"
 
@@ -62,9 +67,13 @@ export NVM_DIR="$HOME/.nvm"
 # This loads nvm bash_completion.
 [[ -s "${NVM_DIR}/bash_completion" ]] && \. "${NVM_DIR}/bash_completion"
 
+## pyenv ##
+
 # Check for pyenv and if available run the init script. Place towards the end of
 # .zshrc because it manipulates PATH during the initialization.
 which pyenv &>/dev/null && eval "$(pyenv init -)"
+
+## rbenv ##
 
 # Check for rbenv and if available run the init script. Place towards the end of
 # .zshrc because it manipulates PATH during the initialization.
@@ -105,5 +114,5 @@ SPACESHIP_DIR_LOCK_SYMBOL=""
 SPACESHIP_GIT_SYMBOL=""
 
 # Load the zsh prompt themes extension and set Spaceship as the prompt theme.
-autoload -U promptinit; promptinit
+autoload -U promptinit && promptinit
 prompt spaceship
