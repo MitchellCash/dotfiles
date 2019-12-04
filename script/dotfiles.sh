@@ -12,19 +12,24 @@ log_info "== DOTFILES =="
 install_dotfiles() {
   log_info "Installing dotfiles to root..."
 
-  cd .dotfiles || exit
-  for file in {zprofile,zshrc,gitconfig,gitignore,hushlogin}; do
-    if [ -r "$file" ] && [ -f "$file" ]; then
-      rsync -avh --no-perms $file ~/.$file
-    fi
-  done
-  cd .. || exit
+  dotfiles_arr=(zprofile zshrc gitconfig gitignore hushlogin)
+  dotfolders_arr=(gnupg ssh)
 
-  for folder in {gnupg,ssh,terminal-theme}; do
-    if [ -d ".$folder" ]; then
-      rsync -avh --no-perms .$folder/ ~/.$folder
+  pushd dotfiles > /dev/null || exit
+
+  for file in "${dotfiles_arr[@]}"; do
+    if [ -r "$file" ] && [ -f "$file" ]; then
+      rsync -avh --no-perms --quiet "$file" ~/."$file"
     fi
   done
+
+  for folder in "${dotfolders_arr[@]}"; do
+    if [ -d "$folder" ]; then
+      rsync -avh --no-perms --quiet "$folder"/ ~/."$folder"
+    fi
+  done
+
+  popd > /dev/null || exit
 
   log_success "Dotfiles successfully installed!"
 }
