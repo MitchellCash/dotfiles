@@ -62,18 +62,9 @@ setup_one_dark_terminal() {
       git clone --quiet https://github.com/nathanbuchar/atom-one-dark-terminal.git "${TERMINAL_THEMES_DIR}/atom-one-dark-terminal"
     fi
 
-osascript <<EOD
-tell application "Terminal"
-  set custom title of every window to "alreadyOpenedTerminalWindows"
-  do shell script "open '${TERMINAL_THEMES_DIR}/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
-  do shell script "sleep 10"
-  do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'One Dark'"
-  do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'One Dark'"
-  close (every window whose name does not contain "alreadyOpenedTerminalWindows")
-end tell
-EOD
+    install_terminal_theme
 
-  log_success "One Dark Terminal theme successfully installed!"
+    log_success "One Dark Terminal theme successfully installed!"
   fi
 }
 

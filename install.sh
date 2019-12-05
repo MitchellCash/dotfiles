@@ -26,7 +26,8 @@ Install configured dotfiles to the root of a macOS system.
 
 Options:
   -h, --help     Show this help message and exit.
-  -f, --force    Used to force install without prompting for confirmation."
+  -f, --force    Used to force install without prompting for confirmation.
+  -u, --update   Updates the script and the terminal/prompt themes."
 }
 
 # Initialise (or reinitialise) sudo to save unhelpful prompts later.
@@ -81,6 +82,54 @@ check_sudo() {
   fi
 }
 
+# Installs the Terminal theme. This function is in this file (maybe not the most
+# appropriate place) because it is used by both the run_update() function and
+# the setup_one_dark_terminal() functions.
+install_terminal_theme() {
+  osascript <<EOD
+tell application "Terminal"
+  set custom title of every window to "alreadyOpenedTerminalWindows"
+  do shell script "open '${TERMINAL_THEMES_DIR}/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
+  do shell script "sleep 10"
+  do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'One Dark'"
+  do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'One Dark'"
+  close (every window whose name does not contain "alreadyOpenedTerminalWindows")
+end tell
+EOD
+}
+
+run_update() {
+  # Check we are running latest version.
+  log_info "Updating to the latest version of the script..."
+  git pull --quiet origin master
+  log_success "Update complete!"
+
+  # Check we have the latest version of the Spaceship Prompt Theme
+  log_info "Updating to the latest version of the Spaceship Prompt theme..."
+  pushd "${PROMPT_THEMES_DIR}/spaceship-prompt" > /dev/null || exit
+  git pull --quiet origin master
+  popd > /dev/null || exit
+  log_success "Update complete!"
+
+  # Check we have the latest version of the One Dark Terminal Theme
+  log_info "Updating to the latest version of the One Dark Terminal theme..."
+  pushd "${TERMINAL_THEMES_DIR}/atom-one-dark-terminal" > /dev/null || exit
+  git pull --quiet origin master
+  # Remove One Dark Theme from Terminal profiles.
+  plutil -remove "Window Settings.One Dark" ~/Library/Preferences/com.apple.Terminal.plist
+  # Re-add the latest version back to Terminal.
+  install_terminal_theme
+  popd > /dev/null || exit
+  log_success "Update complete!"
+
+  log_info "All updates complete! You will need to restart your Terminal before running an update again (plist madness). Would you like me to do this for you? [y/N]"
+  read -r
+
+  if [[ $REPLY =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+    killall Terminal &>/dev/null
+  fi
+}
+
 main() {
   # Parse arguments.
   while [ $# -gt 0 ]; do
@@ -93,6 +142,9 @@ main() {
       # shellcheck disable=SC2034
       FORCE=1
       ;;
+      --update | -u)
+      run_update
+      return
     esac
     shift
   done
@@ -102,10 +154,6 @@ main() {
   sudo --reset-timestamp
 
   check_sudo
-
-  # Check we are running latest version.
-  log_info "Checking we are using the latest version of the script"
-  git pull origin master
 
   # Install Homebrew.
   # shellcheck disable=SC1090
