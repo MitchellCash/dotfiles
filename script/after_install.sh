@@ -40,11 +40,11 @@ setup_spaceship_prompt() {
   if [[ "${CI}" -ne 1 ]]; then
     log_info "Installing Spaceship Zsh prompt theme..."
 
-    if [[ ! -d "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt" ]]; then
-      git clone --quiet https://github.com/denysdovhan/spaceship-prompt.git "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt"
+    if [[ ! -d "${PROMPT_THEMES_DIR}/spaceship-prompt" ]]; then
+      git clone --quiet https://github.com/denysdovhan/spaceship-prompt.git "${PROMPT_THEMES_DIR}/spaceship-prompt"
     fi
 
-    ln -sf "${HOME}/.terminal/zsh-prompt-themes/spaceship-prompt/spaceship.zsh" "${HOME}/.terminal/zsh-prompt-themes/prompt_spaceship_setup"
+    ln -sf "${PROMPT_THEMES_DIR}/spaceship-prompt/spaceship.zsh" "${PROMPT_THEMES_DIR}/prompt_spaceship_setup"
 
     log_success "Spaceship prompt theme successfully installed!"
   fi
@@ -58,14 +58,14 @@ setup_one_dark_terminal() {
     log_info "Installing One Dark Terminal theme..."
     log_info "While this installs additional Terminal windows will open and close"
 
-    if [[ ! -d "${HOME}/.terminal/terminal-themes/atom-one-dark-terminal" ]]; then
-      git clone --quiet https://github.com/nathanbuchar/atom-one-dark-terminal.git "${HOME}/.terminal/terminal-themes/atom-one-dark-terminal"
+    if [[ ! -d "${TERMINAL_THEMES_DIR}/atom-one-dark-terminal" ]]; then
+      git clone --quiet https://github.com/nathanbuchar/atom-one-dark-terminal.git "${TERMINAL_THEMES_DIR}/atom-one-dark-terminal"
     fi
 
 osascript <<EOD
 tell application "Terminal"
   set custom title of every window to "alreadyOpenedTerminalWindows"
-  do shell script "open '${HOME}/.terminal/terminal-themes/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
+  do shell script "open '${TERMINAL_THEMES_DIR}/atom-one-dark-terminal/scheme/terminal/One Dark.terminal'"
   do shell script "sleep 10"
   do shell script "defaults write com.apple.Terminal 'Default Window Settings' -string 'One Dark'"
   do shell script "defaults write com.apple.Terminal 'Startup Window Settings' -string 'One Dark'"

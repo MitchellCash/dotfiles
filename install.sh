@@ -7,6 +7,10 @@ set -e
 # Store relative path as a variable.
 readonly DOTFILESDIRREL=$(dirname "$0")
 
+# Store terminal/prompt theme paths.
+readonly TERMINAL_THEMES_DIR="${HOME}/.terminal/terminal-themes"
+readonly PROMPT_THEMES_DIR="${HOME}/.terminal/zsh-prompt-themes"
+
 # Colors for terminal log outputs.
 readonly COL_RESET="\033[00m"
 readonly COL_BOLD="\033[01m"
