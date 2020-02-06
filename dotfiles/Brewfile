@@ -19,6 +19,7 @@ brew "rbenv"
 brew "wget"
 
 # Bitcoin/altcoin development.
+brew "p7zip"
 brew "automake"
 brew "berkeley-db4"
 brew "boost"
