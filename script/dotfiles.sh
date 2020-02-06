@@ -12,7 +12,7 @@ log_info "== DOTFILES =="
 install_dotfiles() {
   log_info "Installing dotfiles to root..."
 
-  dotfiles_arr=(zprofile zshrc gitconfig gitignore hushlogin)
+  dotfiles_arr=(gitconfig gitignore hushlogin vimrc zprofile zshrc)
   dotfolders_arr=(gnupg ssh)
 
   pushd dotfiles > /dev/null || exit
