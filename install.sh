@@ -11,6 +11,7 @@ readonly DOTFILESDIRREL=$(dirname "$0")
 readonly TERMINAL_DIR="${HOME}/.terminal"
 readonly TERMINAL_THEMES_DIR="${TERMINAL_DIR}/themes"
 readonly ZSH_DIR="${HOME}/.zsh"
+readonly ZSH_PLUGINS_DIR="${ZSH_DIR}/plugins"
 readonly ZSH_THEMES_DIR="${ZSH_DIR}/themes"
 
 # Colors for terminal log outputs.
@@ -104,6 +105,13 @@ run_update() {
   # Check we are running latest version.
   log_info "Updating to the latest version of the script..."
   git pull --quiet origin master
+  log_success "Update complete!"
+
+  # Check we have the latest version of the Zsh autosuggestions plugin
+  log_info "Updating to the latest version of the Zsh autosuggestions plugin..."
+  pushd "${ZSH_PLUGINS_DIR}/zsh-autosuggestions" > /dev/null || exit
+  git pull --quiet origin master
+  popd > /dev/null || exit
   log_success "Update complete!"
 
   # Check we have the latest version of the Spaceship Prompt Theme

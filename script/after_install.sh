@@ -50,6 +50,18 @@ setup_spaceship_prompt() {
   fi
 }
 
+setup_zsh_autosuggestions() {
+  if [[ "${CI}" -ne 1 ]]; then
+    log_info "Installing Zsh autosuggestions plugin..."
+
+    if [[ ! -d "${ZSH_PLUGINS_DIR}/zsh-autosuggestions" ]]; then
+      git clone --quiet https://github.com/zsh-users/zsh-autosuggestions.git "${ZSH_PLUGINS_DIR}/zsh-autosuggestions"
+    fi
+
+    log_success "Zsh autosuggestions plugin successfully installed!"
+  fi
+}
+
 # Use the One Dark colour theme by default in Terminal.app. We also export
 # 'CLICOLOR' and 'LSCOLORS' inside .zshrc as per:
 #  https://github.com/nathanbuchar/atom-one-dark-terminal/blob/master/README.md

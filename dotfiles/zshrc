@@ -21,9 +21,9 @@ alias egrep='egrep --color=auto'
 # Colourised `ls` output.
 alias ls='ls -G'
 
-###########
-# Options #
-###########
+###############
+# Zsh Options #
+###############
 
 ## History ##
 
@@ -52,36 +52,15 @@ setopt INC_APPEND_HISTORY
 # Share history between all sessions.
 setopt SHARE_HISTORY
 
-######################
-# nvm, pyenv & rbenv #
-######################
+###############
+# Zsh Plugins #
+###############
 
-## nvm ##
+source "${HOME}"/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Set nvm directory location.
-export NVM_DIR="$HOME/.nvm"
-
-# This loads nvm.
-[[ -s "/usr/local/opt/nvm/nvm.sh" ]] && \. "/usr/local/opt/nvm/nvm.sh"
-
-# This loads nvm bash_completion.
-[[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ]] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
-
-## pyenv ##
-
-# Check for pyenv and if available run the init script. Place towards the end of
-# .zshrc because it manipulates PATH during the initialization.
-which pyenv &>/dev/null && eval "$(pyenv init -)"
-
-## rbenv ##
-
-# Check for rbenv and if available run the init script. Place towards the end of
-# .zshrc because it manipulates PATH during the initialization.
-which rbenv &>/dev/null && eval "$(rbenv init -)"
-
-################
-# Prompt Theme #
-################
+#############
+# Zsh Theme #
+#############
 
 # Add terminal-theme directory (where the Spaceship prompt theme is located) to
 # $fpath.
@@ -116,3 +95,30 @@ SPACESHIP_GIT_SYMBOL=""
 # Load the zsh prompt themes extension and set Spaceship as the prompt theme.
 autoload -U promptinit && promptinit
 prompt spaceship
+
+######################
+# nvm, pyenv & rbenv #
+######################
+
+## nvm ##
+
+# Set nvm directory location.
+export NVM_DIR="$HOME/.nvm"
+
+# This loads nvm.
+[[ -s "/usr/local/opt/nvm/nvm.sh" ]] && \. "/usr/local/opt/nvm/nvm.sh"
+
+# This loads nvm bash_completion.
+[[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ]] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+
+## pyenv ##
+
+# Check for pyenv and if available run the init script. Place towards the end of
+# .zshrc because it manipulates PATH during the initialization.
+which pyenv &>/dev/null && eval "$(pyenv init -)"
+
+## rbenv ##
+
+# Check for rbenv and if available run the init script. Place towards the end of
+# .zshrc because it manipulates PATH during the initialization.
+which rbenv &>/dev/null && eval "$(rbenv init -)"
