@@ -1,2 +1,5 @@
 " Enable syntax highlighting
 syntax on
+
+" Show line numbers by default
+set number
