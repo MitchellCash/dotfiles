@@ -40,11 +40,11 @@ setup_spaceship_prompt() {
   if [[ "${CI}" -ne 1 ]]; then
     log_info "Installing Spaceship Zsh prompt theme..."
 
-    if [[ ! -d "${PROMPT_THEMES_DIR}/spaceship-prompt" ]]; then
-      git clone --quiet https://github.com/denysdovhan/spaceship-prompt.git "${PROMPT_THEMES_DIR}/spaceship-prompt"
+    if [[ ! -d "${ZSH_THEMES_DIR}/spaceship-prompt" ]]; then
+      git clone --quiet https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_THEMES_DIR}/spaceship-prompt"
     fi
 
-    ln -sf "${PROMPT_THEMES_DIR}/spaceship-prompt/spaceship.zsh" "${PROMPT_THEMES_DIR}/prompt_spaceship_setup"
+    ln -sf "${ZSH_THEMES_DIR}/spaceship-prompt/spaceship.zsh" "${ZSH_THEMES_DIR}/prompt_spaceship_setup"
 
     log_success "Spaceship prompt theme successfully installed!"
   fi

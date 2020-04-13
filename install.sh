@@ -8,9 +8,10 @@ set -e
 readonly DOTFILESDIRREL=$(dirname "$0")
 
 # Store terminal/prompt theme paths.
-readonly PROMPT_THEMES_DIR="${HOME}/.terminal/zsh-prompt-themes"
 readonly TERMINAL_DIR="${HOME}/.terminal"
 readonly TERMINAL_THEMES_DIR="${TERMINAL_DIR}/themes"
+readonly ZSH_DIR="${HOME}/.zsh"
+readonly ZSH_THEMES_DIR="${ZSH_DIR}/themes"
 
 # Colors for terminal log outputs.
 readonly COL_RESET="\033[00m"
@@ -107,7 +108,7 @@ run_update() {
 
   # Check we have the latest version of the Spaceship Prompt Theme
   log_info "Updating to the latest version of the Spaceship Prompt theme..."
-  pushd "${PROMPT_THEMES_DIR}/spaceship-prompt" > /dev/null || exit
+  pushd "${ZSH_THEMES_DIR}/spaceship-prompt" > /dev/null || exit
   git pull --quiet origin master
   popd > /dev/null || exit
   log_success "Update complete!"
