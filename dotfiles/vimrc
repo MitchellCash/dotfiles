@@ -1,5 +1,8 @@
 " Enable syntax highlighting
 syntax on
 
-" Show line numbers by default
+" Enable use of the mouse for all modes
+set mouse=a
+
+" Display line numbers on the left
 set number
