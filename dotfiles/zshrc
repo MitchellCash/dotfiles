@@ -92,9 +92,14 @@ SPACESHIP_DIR_TRUNC=0
 SPACESHIP_DIR_LOCK_SYMBOL=""
 SPACESHIP_GIT_SYMBOL=""
 
-# Load the zsh prompt themes extension and set Spaceship as the prompt theme.
+# Load the Zsh prompt themes extension and set Spaceship as the prompt theme.
 autoload -U promptinit && promptinit
 prompt spaceship
+
+# When moving over words only consider alphanumeric characters, like in Bash.
+# Example: Alt+Backspace in Zsh on `/path/to/file` would delete the whole path
+#          when I only want it to stop at the slash and only delete `file`.
+autoload -U select-word-style && select-word-style bash
 
 ######################
 # nvm, pyenv & rbenv #
